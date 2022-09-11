@@ -5,39 +5,32 @@ export default function App() {
   const [characters, setCharacters] = useState();
   const [loading, setLoading] = useState(true);
 
-  const obtenerPersonajes = async () => {
-    const response = await fetch('https://rickandmortyapi.com/api/character/1,2');
-    const json = await response.json();
-    setCharacters(json)
-  }
-
-  obtenerPersonajes();
-  // console.log(characters);
-
-  // fetch('https://rickandmortyapi.com/api/character/1,2')
-  //     .then(response => response.json())
-  //     .then(response => {
-  //       var results = response.results
-  //       setCharacters(results);
-  //       console.log(results);
-  //       // setCharacters(response.results);
-  //       // setCharacters(response);
-  //       console.log(response);
-  //       // console.log("--------------------------");
-  //       // console.log(response.name);
-  //     });
-  
+  fetch('https://rickandmortyapi.com/api/character/1,2,3,4,5,6,7,8,9,10')
+    .then(response => response.json())
+    .then(response => {
+      setCharacters(response.results);
+      console.log(response.results);
+      setLoading(false)
+    });
+  const renderItem = ({item}) => (
+    <>
+      <Image style={styles.image} source={{uri: item.image}} />
+      <Text style={styles.texto}>{item.name}</Text>
+    </>
+  );
 
   return (
     <View style={styles.container}>
-      <Text>Prueba piloto!</Text>
-      {/* <FlatList>
-          {characters.map((item, index) => (
-            <Text key={index}>
-              {item.name}
-            </Text>
-          ))}
-        </FlatList> */}
+      {loading ? (
+        <ActivityIndicator size="large" animating={loading} />
+      ) : (
+        <FlatList
+          key={item => item.id}
+          data={characters}
+          renderItem={renderItem}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+        />
+      )}
     </View>
   );
 }
@@ -45,8 +38,21 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  texto: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    margin: 10,
+  },
+  separator: {
+    width: '100%',
+    height: 1,
+    backgroundColor: 'grey',
+  },
+  image: {
+    width: 100,
+    height: 100,
   },
 });
