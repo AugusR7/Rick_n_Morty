@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, SafeAreaView } from 'react-native';
 
 export default function App() {
   const [characters, setCharacters] = useState();
   const [loading, setLoading] = useState(true);
 
-  fetch('https://rickandmortyapi.com/api/character/1,2,3,4,5,6,7,8,9,10')
+  fetch('https://rickandmortyapi.com/api/character')
     .then(response => response.json())
     .then(response => {
       setCharacters(response.results);
@@ -20,7 +20,8 @@ export default function App() {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    {/* <View style={styles.container}> */}
       {loading ? (
         <ActivityIndicator size="large" animating={loading} />
       ) : (
@@ -31,7 +32,8 @@ export default function App() {
           ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       )}
-    </View>
+    {/* </View> */}
+    </SafeAreaView>
   );
 }
 
