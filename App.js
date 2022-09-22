@@ -38,8 +38,7 @@ export default function App() {
   
   const characterRender = ({item}) => (
     <>
-      <View style={styles.contentWrap}> 
-      
+      <View style={styles.elementWrap}>
         <View style={styles.imageContainer}>
           <Image style={styles.image} source={{uri: item.image}} />
         </View>
@@ -51,7 +50,14 @@ export default function App() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.SAVcontainer}>
+      
+      
+      <View style = {styles.header}>
+        <Image style={styles.logo} source={require('./Rick_and_Morty_logo.png')} />
+      </View>
+
+
       {loading ? (
         <ActivityIndicator size="large" animating={loading} />
       ) : (
@@ -71,16 +77,39 @@ export default function App() {
 
 
 const styles = StyleSheet.create({
-  container: {
+  SAVcontainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightblue',
+    backgroundColor: 'black',
   },
+
+  header: {
+    alignSelf: 'top',
+    backgroundColor: 'black',
+    width: '100%',
+    height: 80,
+    justifyContent: 'center',
+  },
+  logo: {
+    alignSelf: 'center',
+    height: '61%',
+    width: '40%'
+  },
+
+
+  elementWrap:{
+    alignSelf: 'center',
+    backgroundColor: 'black',
+    height: 230,
+    width: '100%',
+  },
+
   listElement: {
-    backgroundColor: 'grey',
-    width: '80%',
+    backgroundColor: '#555555',
+    width: '100%',
   },
+
   texto: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -90,31 +119,31 @@ const styles = StyleSheet.create({
   },
   separator: {
     width: '100%',
-    height: 2,
-    backgroundColor: 'red',
+    height: 1,
+    backgroundColor: 'grey',
+  },
+
+  imageContainer: {
+    height: '90%',
+    width: '90%',
+    alignSelf: 'left',
+    alignItems: 'left',
+    justifyContent: 'center',
+    marginLeft: 30,
   },
   image: {
-    width: 170,
-    height: 185,
-    // borderRadius: 15,
+    width: '40%',
+    height: '80%',
+    borderRadius: 100,
   },
-  imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
+
   textContainer: {
     borderRadius: 10,
-    // alignContent: 'center',
-    alignSelf: 'center',
     backgroundColor: 'lightyellow',
     width: '70%',
     height: 40,
   },
-  contentWrap:{
-    alignSelf: 'center',
-    backgroundColor: 'black',
-    borderRadius: 20,
-    height: 230,
-    width: 250,
-  }
+
+
 });
