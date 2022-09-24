@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, SafeAreaView } from 'react-native';
-
+import HeaderBar from './components/headerBar'
 
 
 export default function App() {
   const [characters, setCharacters] = useState();
   const [loading, setLoading] = useState(true);
   const [nextAddress, setNextAddress] = useState('https://rickandmortyapi.com/api/character/?page=1');
+  const [filterAddress, setFilterAddress] = useState();
+  const [filteredCharacters, setFilteredCharacters] = useState();
   
   const getCharactersFromAPI = ()=>{
     fetch(nextAddress)
@@ -52,11 +54,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.SAVcontainer}>
       
-      
-      <View style = {styles.header}>
-        <Image style={styles.logo} source={require('./Rick_and_Morty_logo.png')} />
-      </View>
-
+      <HeaderBar/>
 
       {loading ? (
         <ActivityIndicator size="large" animating={loading} />
@@ -84,30 +82,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
 
-  header: {
-    alignSelf: 'top',
-    backgroundColor: 'black',
-    width: '100%',
-    height: 80,
-    justifyContent: 'center',
-  },
-  logo: {
-    alignSelf: 'center',
-    height: '61%',
-    width: '40%'
-  },
-
-
   elementWrap:{
     alignSelf: 'center',
+    flexDirection: 'row',
     backgroundColor: 'black',
-    height: 230,
+    height: 200,
     width: '100%',
   },
 
   listElement: {
     backgroundColor: '#555555',
     width: '100%',
+  },
+
+  textContainer: {
+    alignSelf: 'center',
+    // marginTop: 30,
+    borderRadius: 10,
+    backgroundColor: 'lightyellow',
+    width: '50%',
+    height: 40,
   },
 
   texto: {
@@ -117,6 +111,7 @@ const styles = StyleSheet.create({
     // width: '100%',
     textAlign: 'center',
   },
+
   separator: {
     width: '100%',
     height: 1,
@@ -125,25 +120,17 @@ const styles = StyleSheet.create({
 
   imageContainer: {
     height: '90%',
-    width: '90%',
-    alignSelf: 'left',
-    alignItems: 'left',
+    width: '40%',
+    alignSelf: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 30,
+    marginLeft: 10,
+    marginRight: 10,
   },
   image: {
-    width: '40%',
-    height: '80%',
+    width: '100%',
+    height: '90%',
     borderRadius: 100,
   },
-
-
-  textContainer: {
-    borderRadius: 10,
-    backgroundColor: 'lightyellow',
-    width: '70%',
-    height: 40,
-  },
-
-
+  
 });
