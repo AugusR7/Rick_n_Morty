@@ -8,8 +8,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [nextAddress, setNextAddress] = useState('https://rickandmortyapi.com/api/character/?page=1');
   const [filterAddress, setFilterAddress] = useState();
-  const [filteredCharacters, setFilteredCharacters] = useState();
+  const [filteredCharacters, setFilteredCharacters] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [characterModal, setCharacterModal] = useState({});
   
   const getCharactersFromAPI = () => {
     fetch(nextAddress)
@@ -39,40 +40,65 @@ export default function App() {
     getCharactersFromAPI();
   }, []);
 
-  function CharacterDetails({character}) {
+  function CharacterDetails({character, closeHandler} ) {
     return (
       <>
         <SafeAreaView style={styles.modalContainer}>
-        <Text onPress={() => setShowModal(false)} style={styles.closeButton}>Cerrar</Text>
-          <Text style={styles.closeButton}>{character.name} Hola</Text>
-          {/* <Image style={styles.image} source={{uri: item.image}} /> */}
+          <View style={styles.modalTopBarContainer}>
+            <View style={styles.topLeftIcon}/>
+            <View style={styles.detailedNameContainer}>
+              <Text style={styles.detailedName}>{character.name}</Text>
+            </View>
+            <View style={styles.closeButtonContainer}>
+                <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
+                    <Image style={styles.closeButton} source={require('./close_button_icon.png')}/>
+                </TouchableHighlight>
+            </View>
+          </View>
+          
+          <View style={styles.modalImageContainer}>
+            <Image style={styles.modalImage} source={{uri: character.image}} />
+          </View>
+
+          <View style={styles.characterDetailsContainer}>
+            <Text style={styles.characterDetail}>{'\u2022 Gender: '+character.gender} </Text>
+            { character.gender === 'Male' ? ( <Image style={styles.genderIcon} source={require('./male_icon.png')}/> ):(<></>)}
+            { character.gender === 'Female' ? ( <Image style={styles.genderIcon} source={require('./female_icon.png')}/> ):(<></>)}
+            { character.gender === 'unknown' ? ( <Image style={styles.genderIcon} source={require('./unknown_icon.png')}/> ):(<></>)}
+            <Text style={styles.characterDetail}>{'\u2022 Status: '+character.status} </Text>
+            <Text style={styles.characterDetail}>{'\u2022 Species: '+character.species} </Text>
+            {/* <Text style={styles.characterDetail}>{'\u2022 Gender: '+character.gender} </Text> */}
+            <Text style={styles.characterDetail}>{'\u2022 Origin: '+character.origin.name} </Text>
+          </View>
+
+
         </SafeAreaView>
       </>
     );
   };
 
-  const getCharacterDetails = (item) => {
+  const pressHandler = (character) =>{
     setShowModal(true);
-  
-    return (
-      <>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{uri: item.image}} />
-        </View>
-      </>
-    );
+    setCharacterModal(character)
   };
 
+  const closeHandler = () => {
+    setShowModal(false);
+    setCharacterModal({});
+  };
   const characterRender = ({item}) => (
     <>
-      <TouchableHighlight onPress={() => { setShowModal(true) }} style={styles.touchableIcon}>
+      <TouchableHighlight onPress={() => { pressHandler(item) }} style={styles.touchableIcon}>
         <View style={styles.elementWrap}>
+          
           <View style={styles.imageContainer}>
             <Image style={styles.image} source={{uri: item.image}} />
           </View>
+
           <View style={styles.textContainer}>
-            <Text style={styles.texto}>{item.name}</Text>
+            <Text style={styles.text}>{item.name}</Text>
           </View>
+
         </View>
       </TouchableHighlight>
     </>
@@ -82,7 +108,7 @@ export default function App() {
     <SafeAreaView style={styles.SAVcontainer}>
       
       <HeaderBar/>
-
+      {/* { condicion ? (<HeaderBar/>) : (<HeaderBar/>)} */}
       {loading ? (
         <ActivityIndicator size="large" animating={loading} />
       ) : (
@@ -96,7 +122,9 @@ export default function App() {
         />
       )}
       <Modal transparent={true} visible={showModal} animationType="slide">
-        <CharacterDetails character={this}/>
+        <CharacterDetails 
+          character={characterModal} 
+          closeHandler={closeHandler}/>
       </Modal>
     </SafeAreaView>
   );
@@ -127,14 +155,13 @@ const styles = StyleSheet.create({
 
   textContainer: {
     alignSelf: 'center',
-    // marginTop: 30,
     borderRadius: 10,
     backgroundColor: 'lightyellow',
     width: '50%',
     height: 40,
   },
 
-  texto: {
+  text: {
     fontSize: 18,
     fontWeight: 'bold',
     margin: 10,
@@ -149,7 +176,7 @@ const styles = StyleSheet.create({
   },
 
   imageContainer: {
-    height: '90%',
+    height: '95%',
     width: '40%',
     alignSelf: 'center',
     alignItems: 'center',
@@ -164,24 +191,89 @@ const styles = StyleSheet.create({
   },
 
   modalContainer: {
-    marginTop: 100,
+    marginTop: '10%',
     borderRadius: 15,
     backgroundColor: '#555555',
-    width: '80%',
-    height: '80%', 
-    justifyContent: 'center',
+    width: '95%',
+    height: '90%', 
+    // justifyContent: 'center',
     alignSelf: 'center',
     opacity: 0.95,
     blurRadius: 90,
   },
 
+  modalTopBarContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  topLeftIcon: {
+    flex: 1,
+  },
+  closeButtonContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
   closeButton: {
-    backgroundColor: 'white',
-    height: 100,
-    width: 200,
+    width:40,
+    height: 40,
+  },
+
+  detailedNameContainer: {
+    flex: 6,
+    alignItems: 'center',
+    justifyContent:'center',
+    borderRadius: 10,
+    backgroundColor: 'lightyellow',
+    width: '20%',
+    height: 60,
+  },
+
+  detailedName: {
+    // backgroundColor: 'red',
+    fontSize: 23,
+    fontWeight: 'bold',
+    margin: 10,
+    // width: '90%',
+    // height: '85%',
     textAlign: 'center',
-    justifyItem: 'center',
-    alignSelf: 'center'
+  },
+
+  modalImageContainer: {
+    marginTop: 20,
   },
   
+  modalImage: {
+    height: '60%',
+    width: '70%',
+    alignSelf: 'center',
+    borderRadius: 20,
+  },
+
+  characterDetailsContainer:{
+    // alignSelf: 'center',
+    marginLeft: '5%',
+    marginRight: '5%',
+    // marginBottom: '100%',
+    // justifyContent: 'flex-start',
+    backgroundColor:'white'
+  },
+
+  characterDetail: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+
+  gender: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    flex: 1,
+  },
+
+  genderIcon:{
+    // flex: 1,
+    width:40,
+    height: 40,
+  },
 });
