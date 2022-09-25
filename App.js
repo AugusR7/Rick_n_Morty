@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, SafeAreaView, TouchableHighlight, Modal} from 'react-native';
 import HeaderBar from './components/headerBar'
 
 
@@ -9,8 +9,9 @@ export default function App() {
   const [nextAddress, setNextAddress] = useState('https://rickandmortyapi.com/api/character/?page=1');
   const [filterAddress, setFilterAddress] = useState();
   const [filteredCharacters, setFilteredCharacters] = useState();
+  const [showModal, setShowModal] = useState(false);
   
-  const getCharactersFromAPI = ()=>{
+  const getCharactersFromAPI = () => {
     fetch(nextAddress)
       .then(response => response.json())
       .then(response => {
@@ -19,7 +20,7 @@ export default function App() {
         setLoading(false);
       });
   };
-  const getNewCharactersFromAPI = ()=> {
+  const getNewCharactersFromAPI = () => {
     fetch(nextAddress)
       .then(response => response.json())
       .then(response => {
@@ -37,17 +38,43 @@ export default function App() {
   useEffect( ()=> {
     getCharactersFromAPI();
   }, []);
+
+  function CharacterDetails({character}) {
+    return (
+      <>
+        <SafeAreaView style={styles.modalContainer}>
+        <Text onPress={() => setShowModal(false)} style={styles.closeButton}>Cerrar</Text>
+          <Text style={styles.closeButton}>{character.name} Hola</Text>
+          {/* <Image style={styles.image} source={{uri: item.image}} /> */}
+        </SafeAreaView>
+      </>
+    );
+  };
+
+  const getCharacterDetails = (item) => {
+    setShowModal(true);
   
-  const characterRender = ({item}) => (
-    <>
-      <View style={styles.elementWrap}>
+    return (
+      <>
         <View style={styles.imageContainer}>
           <Image style={styles.image} source={{uri: item.image}} />
         </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.texto}>{item.name}</Text>
+      </>
+    );
+  };
+
+  const characterRender = ({item}) => (
+    <>
+      <TouchableHighlight onPress={() => { setShowModal(true) }} style={styles.touchableIcon}>
+        <View style={styles.elementWrap}>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={{uri: item.image}} />
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.texto}>{item.name}</Text>
+          </View>
         </View>
-      </View>
+      </TouchableHighlight>
     </>
   );
 
@@ -68,6 +95,9 @@ export default function App() {
           ItemSeparatorComponent={ () => <View style={styles.separator} /> }
         />
       )}
+      <Modal transparent={true} visible={showModal} animationType="slide">
+        <CharacterDetails character={this}/>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -131,6 +161,27 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '90%',
     borderRadius: 100,
+  },
+
+  modalContainer: {
+    marginTop: 100,
+    borderRadius: 15,
+    backgroundColor: '#555555',
+    width: '80%',
+    height: '80%', 
+    justifyContent: 'center',
+    alignSelf: 'center',
+    opacity: 0.95,
+    blurRadius: 90,
+  },
+
+  closeButton: {
+    backgroundColor: 'white',
+    height: 100,
+    width: 200,
+    textAlign: 'center',
+    justifyItem: 'center',
+    alignSelf: 'center'
   },
   
 });

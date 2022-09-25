@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, SafeAreaView, TouchableHighlight } from 'react-native';
 
-export default function App() {
+
+
+export default function headerBar() {
     return (
         <View style = {styles.header}>
 
