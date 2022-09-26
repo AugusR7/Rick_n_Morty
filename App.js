@@ -61,10 +61,13 @@ export default function App() {
           </View>
 
           <View style={styles.characterDetailsContainer}>
-            <Text style={styles.characterDetail}>{'\u2022 Gender: '+character.gender} </Text>
-            { character.gender === 'Male' ? ( <Image style={styles.genderIcon} source={require('./male_icon.png')}/> ):(<></>)}
-            { character.gender === 'Female' ? ( <Image style={styles.genderIcon} source={require('./female_icon.png')}/> ):(<></>)}
-            { character.gender === 'unknown' ? ( <Image style={styles.genderIcon} source={require('./unknown_icon.png')}/> ):(<></>)}
+            <View style={styles.genderDetailWrapper}>
+              <Text style={styles.characterDetail}>{'\u2022 Gender: '+character.gender} </Text>
+              { character.gender === 'Male' ? ( <Image style={styles.genderIcon} source={require('./male_icon.png')}/> ):(<></>)}
+              { character.gender === 'Female' ? ( <Image style={styles.genderIcon} source={require('./female_icon.png')}/> ):(<></>)}
+              { character.gender === 'unknown' ? ( <Image style={styles.genderIcon} source={require('./unknown_icon.png')}/> ):(<></>)}
+            </View>
+            
             <Text style={styles.characterDetail}>{'\u2022 Status: '+character.status} </Text>
             <Text style={styles.characterDetail}>{'\u2022 Species: '+character.species} </Text>
             {/* <Text style={styles.characterDetail}>{'\u2022 Gender: '+character.gender} </Text> */}
@@ -190,6 +193,10 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
 
+
+
+
+  
   modalContainer: {
     marginTop: '10%',
     borderRadius: 15,
@@ -200,6 +207,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     opacity: 0.95,
     blurRadius: 90,
+    justifyContent: 'space-evenly'
   },
 
   modalTopBarContainer: {
@@ -257,12 +265,14 @@ const styles = StyleSheet.create({
     marginRight: '5%',
     // marginBottom: '100%',
     // justifyContent: 'flex-start',
-    backgroundColor:'white'
+    backgroundColor:'white',
+    borderRadius: 10,
   },
 
   characterDetail: {
     fontSize: 18,
     fontWeight: 'bold',
+    margin: 10,
   },
 
   gender: {
@@ -273,7 +283,14 @@ const styles = StyleSheet.create({
 
   genderIcon:{
     // flex: 1,
-    width:40,
-    height: 40,
+    width: 30,
+    height: 30,
+    margintop: 10
   },
+
+  genderDetailWrapper:{
+    flexDirection: 'row',
+  }
+
+
 });
