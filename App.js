@@ -44,37 +44,71 @@ export default function App() {
     return (
       <>
         <SafeAreaView style={styles.modalContainer}>
-          <View style={styles.modalTopBarContainer}>
-            <View style={styles.topLeftIcon}/>
-            <View style={styles.detailedNameContainer}>
-              <Text style={styles.detailedName}>{character.name}</Text>
-            </View>
-            <View style={styles.closeButtonContainer}>
-                <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
-                    <Image style={styles.closeButton} source={require('./close_button_icon.png')}/>
-                </TouchableHighlight>
-            </View>
-          </View>
-          
           <View style={styles.modalImageContainer}>
             <Image style={styles.modalImage} source={{uri: character.image}} />
           </View>
 
-          <View style={styles.characterDetailsContainer}>
-            <View style={styles.genderDetailWrapper}>
-              <Text style={styles.characterDetail}>{'\u2022 Gender: '+character.gender} </Text>
-              { character.gender === 'Male' ? ( <Image style={styles.genderIcon} source={require('./male_icon.png')}/> ):(<></>)}
-              { character.gender === 'Female' ? ( <Image style={styles.genderIcon} source={require('./female_icon.png')}/> ):(<></>)}
-              { character.gender === 'unknown' ? ( <Image style={styles.genderIcon} source={require('./unknown_icon.png')}/> ):(<></>)}
+          <Text style={styles.detailedName}>{character.name}</Text>
+
+          <View style={styles.modalSeparator}/>
+
+          <View style={styles.characterDetailContainer}>
+            <Text style={styles.characterDetailHeader}>{'Status: '} </Text>
+            { character.status === 'Alive' ? ( <Image style={styles.characterDetailIcon} source={require('./green_heart.png')}/> ):(<></>)}
+            { character.status === 'Dead' ? ( <Image style={styles.characterDetailIcon} source={require('./rip.png')}/> ):(<></>)}
+            { character.status === 'unknown' ? ( <Image style={styles.characterDetailIcon} source={require('./unknown_icon.png')}/> ):(<></>)}
+            { character.status === 'Alive' ? (<Text style={styles.aliveStatus}> {character.status}</Text>) : (<></>)}
+            { character.status === 'Dead' ? (<Text style={styles.deadStatus}> {character.status}</Text>) : (<></>)}
+            { character.status === 'unknown' ? (<Text style={styles.characterInformationText}> {character.status}</Text>) : (<></>)}
+          </View>
+          
+          <View style={styles.characterDetailContainer}>
+            <Text style={styles.characterDetailHeader}>{'Gender: '} </Text>
+            <View style={styles.characteDetailContent}>
+              { character.gender === 'Male' ? ( <Image style={styles.characterDetailIcon} source={require('./male_icon.png')}/> ):(<></>)}
+              { character.gender === 'Female' ? ( <Image style={styles.characterDetailIcon} source={require('./female_icon.png')}/> ):(<></>)}
+              { character.gender === 'unknown' ? ( <Image style={styles.characterDetailIcon} source={require('./unknown_icon.png')}/> ):(<></>)}
+              <Text style={styles.characterInformationText}> {character.gender}</Text>
             </View>
-            
-            <Text style={styles.characterDetail}>{'\u2022 Status: '+character.status} </Text>
-            <Text style={styles.characterDetail}>{'\u2022 Species: '+character.species} </Text>
-            {/* <Text style={styles.characterDetail}>{'\u2022 Gender: '+character.gender} </Text> */}
-            <Text style={styles.characterDetail}>{'\u2022 Origin: '+character.origin.name} </Text>
           </View>
 
+          <View style={styles.characterDetailContainer}>
+            <Text style={styles.characterDetailHeader}>{'Species: '} </Text>
+            <View style={styles.characteDetailContent}>
+              <View>
+                <Text style={styles.characterInformationText}> {character.species}</Text>
+                { character.type !== '' ? ( <Text style={styles.characterInformationText}> ({character.type})</Text>):(<></>)}
+              </View>
+            </View>
+          </View>
 
+          <View style={styles.characterDetailContainerTruncated}>
+            <Text style={styles.characterDetailHeader}>{'Origin: '} </Text>
+            <View style={styles.characteDetailContent}>
+              <Text style={styles.characterInformationText}> {character.origin.name}</Text>
+            </View>
+          </View>
+          
+          <View style={styles.characterDetailContainerTruncated}>
+            <Text style={styles.characterDetailHeader}>{'Actual Location: '} </Text>
+            {/* <View style={styles.characteDetailContent}> */}
+              <View>
+              <Text style={styles.characterInformationText}> {character.location.name}</Text>
+            </View>
+          </View>
+            
+            {/* <Text style={styles.characterDetail}>{'\u2022 Status: '+character.status} </Text>
+            <Text style={styles.characterDetail}>{'\u2022 Species: '+character.species} </Text>
+            <Text style={styles.characterDetail}>{'\u2022 Gender: '+character.gender} </Text>
+          <Text style={styles.characterDetail}>{'\u2022 Origin: '+character.origin.name} </Text> */}
+          {/* </View> */}
+
+
+          <View style={styles.closeButtonContainer}>
+              <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
+                  <Image style={styles.closeButton} source={require('./close_button_icon.png')}/>
+              </TouchableHighlight>
+          </View>
         </SafeAreaView>
       </>
     );
@@ -168,7 +202,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     margin: 10,
-    // width: '100%',
     textAlign: 'center',
   },
 
@@ -176,6 +209,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 1,
     backgroundColor: 'grey',
+  },
+
+  modalSeparator: {
+    alignSelf: 'center',
+    width: '95%',
+    height: 1.5,
+    backgroundColor: 'grey',
+    marginBottom: '2%',
   },
 
   imageContainer: {
@@ -193,21 +234,15 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
 
-
-
-
-  
   modalContainer: {
-    marginTop: '10%',
+    marginTop: '30%',
     borderRadius: 15,
     backgroundColor: '#555555',
-    width: '95%',
-    height: '90%', 
-    // justifyContent: 'center',
+    width: '80%',
+    height: '78%', 
     alignSelf: 'center',
-    opacity: 0.95,
+    // opacity: 0.99,
     blurRadius: 90,
-    justifyContent: 'space-evenly'
   },
 
   modalTopBarContainer: {
@@ -220,7 +255,8 @@ const styles = StyleSheet.create({
   closeButtonContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-end',
+    marginBottom: '5%'
   },
 
   closeButton: {
@@ -228,69 +264,69 @@ const styles = StyleSheet.create({
     height: 40,
   },
 
-  detailedNameContainer: {
-    flex: 6,
-    alignItems: 'center',
-    justifyContent:'center',
-    borderRadius: 10,
-    backgroundColor: 'lightyellow',
-    width: '20%',
-    height: 60,
-  },
-
   detailedName: {
-    // backgroundColor: 'red',
-    fontSize: 23,
+    fontSize: 36,
     fontWeight: 'bold',
     margin: 10,
-    // width: '90%',
-    // height: '85%',
-    textAlign: 'center',
-  },
-
-  modalImageContainer: {
-    marginTop: 20,
+    color: 'white',
+    marginTop: 10,
   },
   
   modalImage: {
-    height: '60%',
-    width: '70%',
-    alignSelf: 'center',
-    borderRadius: 20,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+    resizeMode: 'contain',
+    aspectRatio: 1,
+    height: undefined,
+    width: undefined,
   },
-
-  characterDetailsContainer:{
-    // alignSelf: 'center',
-    marginLeft: '5%',
-    marginRight: '5%',
-    // marginBottom: '100%',
-    // justifyContent: 'flex-start',
-    backgroundColor:'white',
-    borderRadius: 10,
-  },
-
-  characterDetail: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    margin: 10,
-  },
-
-  gender: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    flex: 1,
-  },
-
-  genderIcon:{
-    // flex: 1,
-    width: 30,
-    height: 30,
-    margintop: 10
-  },
-
-  genderDetailWrapper:{
+  
+  characterDetailContainer:{
     flexDirection: 'row',
-  }
+    marginLeft: '5%',
+    marginBottom: '3%',
+  },
 
+  characterDetailHeader: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'darkgrey',
+  },
+
+  characterDetailContainerTruncated: {
+    marginLeft: '5%',
+    marginBottom: '3%',
+  },
+
+  characteDetailContent: {
+    flexDirection: 'row',
+  },
+
+  characterInformationText: {
+    fontSize: 23,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+
+  characterDetailIcon:{
+    resizeMode: 'contain',
+    aspectRatio: 0.7,
+    height: undefined,
+    width: undefined,
+  },
+
+  aliveStatus: {
+    fontSize: 23,
+    fontWeight: 'bold',
+    color: 'lightgreen',
+    alignSelf: 'center'
+  },
+
+  deadStatus: {
+    fontSize: 23,
+    fontWeight: 'bold',
+    color: 'red',
+    alignSelf: 'center'
+  },
 
 });
