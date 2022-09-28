@@ -6,15 +6,65 @@ import ModalFilter from './components/Modals/Filter/ModalFilter'
 import styles from './components/appStyles';
 
 export default function App() {
-  const [characters, setCharacters] = useState();
-  const [loading, setLoading] = useState(true);
-  const [nextAddress, setNextAddress] = useState('https://rickandmortyapi.com/api/character/?page=1');
-  const [filterAddress, setFilterAddress] = useState();
-  const [filteredCharacters, setFilteredCharacters] = useState({});
-  const [showModal, setShowModal] = useState(false);
-  const [characterModal, setCharacterModal] = useState({});
-  const [showFilter, setShowfilter] = useState(false);
-  
+  // ---------------------------------- State declarations ---------------------------------- //
+  const [characters,  setCharacters] =       useState();
+  const [loading,       setLoading] =        useState(true);
+  const [nextAddress,   setNextAddress] =    useState('https://rickandmortyapi.com/api/character/?page=1');
+  var filterAddress = ''
+  const [showModal,     setShowModal] =      useState(false);
+  const [characterModal,setCharacterModal] = useState({});
+  const [showFilter,    setShowfilter] =     useState(false);
+  // ----------------------- filtros ----------------------- //
+  var nameFilter = '';
+  var speciesFilter = '';
+  var typeFilter = '';
+  var genderFilter = '';
+  var statusFilter = '';
+
+  // ---------------------------------- Callbacks (handlers) ---------------------------------- //
+
+  const generateSearchAddress = () => {
+    var address = 'https://rickandmortyapi.com/api/character?'
+    +  'name='   +  nameFilter 
+    + '&species='+  speciesFilter 
+    + '&type='   +  typeFilter
+    + '&status=' +  statusFilter
+    + '&gender=' +  genderFilter;
+    console.log("[A] Generé: "+address);
+    filterAddress = address;
+    getFilteredCharactersFromAPI(address);
+  }
+
+  const searchByName = (name) => {
+    console.log("[N] Me llamaron con: "+name);
+    nameFilter = name;
+    generateSearchAddress();
+  };
+
+  const searchBySpecies = (species) => {
+    console.log("[Sp] Me llamaron con: "+species);
+    speciesFilter = species;
+    generateSearchAddress();
+  };
+
+  const searchByType = (type) => {
+    console.log("[T] Me llamaron con: "+type);
+    typeFilter = type;
+    generateSearchAddress();
+  };
+
+  const searchByStatus = (status) => {
+    console.log("[St] Me llamaron con: "+status);
+    statusFilter = status;
+    generateSearchAddress();
+  };
+  const searchByGender = (gender) => {
+    console.log("[G] Me llamaron con: "+gender);
+    genderFilter = gender;
+    generateSearchAddress();
+  };
+
+  // ---------------------------------- Fetch functions ---------------------------------- //
   const getCharactersFromAPI = () => {
     fetch(nextAddress)
       .then(response => response.json())
@@ -24,6 +74,7 @@ export default function App() {
         setLoading(false);
       });
   };
+
   const getNewCharactersFromAPI = () => {
     fetch(nextAddress)
       .then(response => response.json())
@@ -39,10 +90,21 @@ export default function App() {
       });
   };
 
+  const getFilteredCharactersFromAPI = (filteredAddress) => {
+    console.log("[F] Me llamaron con: "+filteredAddress);
+    fetch(filteredAddress)
+      .then(response => response.json())
+      .then(response => {
+        setCharacters( response.results);
+        setNextAddress('');
+        setLoading(false);
+      });
+  };
+  // ------------------------------------------------------------------------------------- //
   useEffect( ()=> {
     getCharactersFromAPI();
   }, []);
-
+  // ---------------------------------- Press handlers ---------------------------------- //
   const pressHandler = (character) =>{
     setShowModal(true);
     setCharacterModal(character)
@@ -56,7 +118,9 @@ export default function App() {
   const filterEnabler = () => {
     setShowfilter(true);
   };
-  
+
+  // const 
+  // ---------------------------------- Character Render ---------------------------------- //
   const characterRender = ({item}) => (
     <>
       <TouchableHighlight onPress={() => { pressHandler(item) }} style={styles.touchableIcon}>
@@ -74,7 +138,7 @@ export default function App() {
       </TouchableHighlight>
     </>
   );
-
+  // ---------------------------------- Screen Render ---------------------------------- //
   return (
     <SafeAreaView style={styles.SAVcontainer}>
       
@@ -103,8 +167,12 @@ export default function App() {
 
       <Modal transparent={true} visible={showFilter} animationType="slide">
         <ModalFilter
-          // character={characterModal} 
-          closeHandler={closeHandler}
+          closeHandler  =   {closeHandler}
+          searchByName =    {searchByName}
+          searchBySpecies = {searchBySpecies}
+          searchByType =    {searchByType}
+          searchByStatus =  {searchByStatus}
+          searchByGender =  {searchByGender}
           />
       </Modal>
     </SafeAreaView>

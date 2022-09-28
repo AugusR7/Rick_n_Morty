@@ -12,12 +12,6 @@ export default styles = StyleSheet.create({
         blurRadius: 90,
     },
 
-    characterDetailHeader: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'darkgrey',
-    },
-
     characterDetailIcon:{
         resizeMode: 'contain',
         aspectRatio: 0.7,
@@ -38,8 +32,8 @@ export default styles = StyleSheet.create({
         alignSelf: 'center'
     }, 
 
-    characterDetailContainer:{
-        flexDirection: 'row',
+    filterContainer:{
+        // flexDirection: 'row',
         marginLeft: '5%',
         marginBottom: '3%',
     },
@@ -47,6 +41,22 @@ export default styles = StyleSheet.create({
     characterDetailContainerTruncated: {
         marginLeft: '5%',
         marginBottom: '3%',
+    },
+
+    buttonFilterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
+
+    buttonFilterContainerSecondRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        marginTop: 20,
+    },
+
+    textFilterContainer: {
+        width: '95%',
+        height: 50,
     },
 
     modalSeparator: {
@@ -74,7 +84,7 @@ export default styles = StyleSheet.create({
         marginBottom: '5%'
     },
     
-      closeButton: {
+    closeButton: {
         width:40,
         height: 40,
     },
@@ -88,11 +98,67 @@ export default styles = StyleSheet.create({
         width: undefined,
     },
 
-    detailedName: {
-        fontSize: 36,
+    introductionText: {
+        fontSize: 34,
         fontWeight: 'bold',
         margin: 10,
         color: 'white',
         marginTop: 10,
     },
+
+    filterHeader: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'darkgrey',
+        marginBottom: 10,
+    },
+
+    itemContainer: {
+        paddingLeft: 7,
+        paddingRight: 7,
+        height: 30,
+        justifyContent: 'center',
+        borderRadius: 8,
+        backgroundColor: 'white',
+        borderColor: '#555555',
+        borderWidth: 2,
+    },
+    itemContainerSelected: {
+        paddingLeft: 7,
+        paddingRight: 7,
+        height: 30,
+        justifyContent: 'center',
+        borderRadius: 8,
+        backgroundColor: 'lightblue',
+        borderColor: 'lightblue',
+        borderWidth: 2,
+    },
+
+    itemContainerSingle: {
+        marginTop: 20,
+        paddingLeft: 7,
+        paddingRight: 7,
+        width: 100,
+        height: 30,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        borderRadius: 8,
+    },
+
+    detailedFilterItem: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
+
+    filterTextInput: {
+        height: '100%',
+        borderRadius: 5,
+        backgroundColor: 'white',
+        color: 'black',
+        textAlign: 'center',
+        fontSize: 25,
+        fontWeight: 'bold',
+    },
+    
 });
