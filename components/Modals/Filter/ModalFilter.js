@@ -16,7 +16,7 @@ export default function ModalFilter({closeHandler, acceptHandler} ) {
   return (
     <>
       <SafeAreaView style={styles.modalContainer}>
-        <Text style={styles.introductionText}> CHARACTER FILTERS</Text>
+        <Text style={styles.introductionText}> FILTER BY:</Text>
         <View style={styles.modalSeparator}/>
 
         <View style={styles.filterContainer}>
@@ -65,30 +65,32 @@ export default function ModalFilter({closeHandler, acceptHandler} ) {
           <Text style={styles.filterHeader}>Status: </Text>
           <View style={styles.buttonFilterContainer}>
             {statusSelection==='Alive'? (
-            <>
+              <>
               <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter); }} style={styles.itemContainerSelected}>
                 <Text style={styles.detailedFilterItem}>Alive</Text>
               </TouchableHighlight>
             </>):(
-            <>
+              <>
               <TouchableHighlight onPress={() => {statusFilter='Alive'; setStatusSelection(statusFilter);}} style={styles.itemContainer}>
                 <Text style={styles.detailedFilterItem}>Alive</Text>
               </TouchableHighlight>
             </>)}
             
             {statusSelection==='Dead'? (
-            <>
+              <>
               <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter); }} style={styles.itemContainerSelected}>
               <Text style={styles.detailedFilterItem}>Dead</Text>
             </TouchableHighlight>
             </>):(
-            <>
+              <>
               <TouchableHighlight onPress={() => {statusFilter='Dead'; setStatusSelection(statusFilter);}} style={styles.itemContainer}>
               <Text style={styles.detailedFilterItem}>Dead</Text>
             </TouchableHighlight>
             </>)}
-
-            {statusSelection==='Unknown'? (
+            
+          </View>
+          <View style={styles.buttonFilterContainer}>
+          {statusSelection==='Unknown'? (
             <>
               <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter);}} style={styles.itemContainerSelected}>
               <Text style={styles.detailedFilterItem}>Unknown</Text>
@@ -111,8 +113,8 @@ export default function ModalFilter({closeHandler, acceptHandler} ) {
               <Text style={styles.detailedFilterItem}>All Status</Text>
             </TouchableHighlight>
             </>)}
-            
           </View>
+          
         </View>
 
         <View style={styles.filterContainer}>

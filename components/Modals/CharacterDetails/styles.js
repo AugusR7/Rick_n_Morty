@@ -73,7 +73,7 @@ export default styles = StyleSheet.create({
         marginBottom: '5%'
     },
     
-      closeButton: {
+    closeButton: {
         width:40,
         height: 40,
     },
