@@ -8,9 +8,13 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
   // const [typeFilter, setTypeFilter ] = useState('')
   const [statusSelection,  setStatusSelection] =   useState('');
   const [genderSelection,  setGenderSelection] =   useState('');
-  var nameFilter = '';
-  var speciesFilter = '';
-  var typeFilter = '';
+  const [nameFilter,  setNameFilter] =   useState('');
+  const [speciesFilter,  setSpeciesFilter] =   useState('');
+  const [typeFilter,  setTypeFilter] =   useState('');
+
+  //var nameFilter = '';
+  //var speciesFilter = '';
+  //var typeFilter = '';
   var statusFilter = '';
   var genderFilter = '';
   var filterAttributes = [nameFilter,speciesFilter,typeFilter,statusFilter,genderFilter];
@@ -26,10 +30,11 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
           <View style={styles.textFilterContainer}>
             <TextInput 
               style={styles.filterTextInput}
-              value = {nameFilter}
               placeholder = "Insert NAME"
               placeholderTextColor= 'gray'
-              onTextInput={() => searchByName(nameFilter)}
+              value = {nameFilter}
+              onChangeText = {setNameFilter}
+              onSubmitEditing={() => searchByName(nameFilter)}
             />
           </View>
         </View>
@@ -39,10 +44,11 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
           <View style={styles.textFilterContainer}>
             <TextInput 
               style={styles.filterTextInput}
-              value = {speciesFilter}
               placeholder = "Insert SPECIES"
               placeholderTextColor= 'gray'
-              onChange={() => searchBySpecies(speciesFilter)}
+              value = {speciesFilter}
+              onChangeText = {setSpeciesFilter}
+              onSubmitEditing={() => searchBySpecies(speciesFilter)}
             />
           </View>
         </View>
@@ -52,10 +58,11 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
           <View style={styles.textFilterContainer}>
             <TextInput 
               style={styles.filterTextInput}
-              value = {typeFilter}
               placeholder = "Insert TYPE"
               placeholderTextColor= 'gray'
-              onChange={() => searchByType(typeFilter)}
+              value = {typeFilter}
+              onChangeText = {setTypeFilter}
+              onSubmitEditing={() => searchByType(typeFilter)}
             />
           </View>
         </View>
