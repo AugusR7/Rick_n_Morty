@@ -9,8 +9,8 @@ export default function App() {
   // ---------------------------------- State declarations ---------------------------------- //
   const [characters,  setCharacters] =       useState();
   const [loading,       setLoading] =        useState(true);
-  const [nextAddress,   setNextAddress] =    useState('https://rickandmortyapi.com/api/character/?page=1');
-  var filterAddress = ''
+  const [nextAddress,   setNextAddress] =    useState('https://rickandmortyapi.com/api/character');
+  //var filterAddress = ''
   const [showModal,     setShowModal] =      useState(false);
   const [characterModal,setCharacterModal] = useState({});
   const [showFilter,    setShowfilter] =     useState(false);
@@ -31,8 +31,8 @@ export default function App() {
     + '&status=' +  statusFilter
     + '&gender=' +  genderFilter;
     console.log("[A] Generé: "+address);
-    filterAddress = address;
-    getFilteredCharactersFromAPI(address);
+    setNextAddress(address);
+    getCharactersFromAPI(address);
   }
 
   const searchByName = (name) => {
@@ -65,8 +65,19 @@ export default function App() {
   };
 
   // ---------------------------------- Fetch functions ---------------------------------- //
-  const getCharactersFromAPI = () => {
-    fetch(nextAddress)
+  // const getCharactersFromAPI = () => {
+  //   fetch(nextAddress)
+  //     .then(response => response.json())
+  //     .then(response => {
+  //       setCharacters(response.results);
+  //       setNextAddress(response.info.next);
+  //       setLoading(false);
+  //     });
+  // };
+
+  const getCharactersFromAPI = (filteredAddress) => {
+    console.log("[F] Me llamaron con: "+filteredAddress);
+    fetch(filteredAddress)
       .then(response => response.json())
       .then(response => {
         setCharacters(response.results);
@@ -90,19 +101,10 @@ export default function App() {
       });
   };
 
-  const getFilteredCharactersFromAPI = (filteredAddress) => {
-    console.log("[F] Me llamaron con: "+filteredAddress);
-    fetch(filteredAddress)
-      .then(response => response.json())
-      .then(response => {
-        setCharacters( response.results);
-        setNextAddress('');
-        setLoading(false);
-      });
-  };
+
   // ------------------------------------------------------------------------------------- //
   useEffect( ()=> {
-    getCharactersFromAPI();
+    getCharactersFromAPI(nextAddress);
   }, []);
   // ---------------------------------- Press handlers ---------------------------------- //
   const pressHandler = (character) =>{
