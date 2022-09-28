@@ -2,13 +2,12 @@ import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
     modalContainer: {
-        marginTop: '30%',
+        marginTop: '20%',
         borderRadius: 15,
         backgroundColor: '#555555',
         width: '80%',
-        height: '78%', 
+        height: '83%', 
         alignSelf: 'center',
-        // opacity: 0.99,
         blurRadius: 90,
     },
 
@@ -77,6 +76,11 @@ export default styles = StyleSheet.create({
       closeButton: {
         width:40,
         height: 40,
+    },
+
+    buttonLegend: {
+        color: 'white',
+        fontSize: 16,
     },
 
     modalImage: {

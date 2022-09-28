@@ -13,13 +13,6 @@ export default function App() {
   const [showModal,     setShowModal] =      useState(false);
   const [characterModal,setCharacterModal] = useState({});
   const [showFilter,    setShowfilter] =     useState(false);
-  
-  // ----------------------- filtros ----------------------- //
-  var nameFilter = '';
-  var speciesFilter = '';
-  var typeFilter = '';
-  var genderFilter = '';
-  var statusFilter = '';
 
   // ---------------------------------- Callbacks (handlers) ---------------------------------- //
 
@@ -63,6 +56,7 @@ export default function App() {
   };
 
   // ------------------------------------------------------------------------------------- //
+  
   useEffect( ()=> {
     getCharactersFromAPI(nextAddress);
   }, []);

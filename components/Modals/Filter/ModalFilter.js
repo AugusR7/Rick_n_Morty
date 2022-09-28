@@ -3,9 +3,6 @@ import { Text, View, Image, SafeAreaView, TouchableHighlight, TextInput} from 'r
 import styles from './styles';
 
 export default function ModalFilter({closeHandler, acceptHandler} ) {
-  // const [nameFilter, setNameFilter ] = useState('')
-  // const [speciesFilter, setSpeciesFilter ] = useState('')
-  // const [typeFilter, setTypeFilter ] = useState('')
   const [statusSelection,  setStatusSelection] =   useState('');
   const [genderSelection,  setGenderSelection] =   useState('');
   const [nameFilter,  setNameFilter] =   useState('');
@@ -199,16 +196,10 @@ export default function ModalFilter({closeHandler, acceptHandler} ) {
           <View style={styles.acceptButtonContainer}>
             <TouchableHighlight onPress={() =>{
                 var filterAttributes = [nameFilter,speciesFilter,typeFilter,statusSelection,genderSelection];
-                // console.log("Name:" +nameFilter);
-                // console.log("species:" +speciesFilter);
-                // console.log("type:" +typeFilter);
-                // console.log("status:" +statusSelection);
-                // console.log("gender:" +genderSelection);
-                // console.log("[ModalFilter]: "+filterAttributes);
                 acceptHandler(filterAttributes)}}
                 style={styles.touchableIcon}>
                 <>
-                  <Image style={styles.closeButton} source={require('../accept_button_icon.png')}/>
+                  <Image style={styles.applyButton} source={require('../accept_button_icon.png')}/>
                   <Text style={styles.buttonLegend}> Apply </Text>
                 </>
 

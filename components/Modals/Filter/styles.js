@@ -8,7 +8,6 @@ export default styles = StyleSheet.create({
         width: '80%',
         height: '78%', 
         alignSelf: 'center',
-        // opacity: 0.99,
         blurRadius: 90,
     },
 
@@ -33,7 +32,6 @@ export default styles = StyleSheet.create({
     }, 
 
     filterContainer:{
-        // flexDirection: 'row',
         marginLeft: '5%',
         marginBottom: '3%',
     },
@@ -78,9 +76,11 @@ export default styles = StyleSheet.create({
     },
 
     bottomButtonsContainer: {
+        flex: 1,
         marginTop: 20,
         flexDirection: 'row',
-        // justifyContent: 'flex-end',
+        alignSelf:'flex-end',
+        justifyContent: 'flex-end',
     },
 
     closeButtonContainer: {
@@ -99,10 +99,21 @@ export default styles = StyleSheet.create({
     },
     
     closeButton: {
+        marginLeft: 2,
+        width:45,
+        height: 45,
+    },
+
+    applyButton: {
+        marginLeft:3,
         width:40,
         height: 40,
     },
 
+    buttonLegend: {
+        color: 'white',
+        fontSize: 16,
+    },
 
     modalImage: {
         borderTopRightRadius: 15,

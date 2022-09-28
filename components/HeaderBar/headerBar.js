@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { View, Image, TouchableHighlight } from 'react-native';
 import styles from './styles';
 

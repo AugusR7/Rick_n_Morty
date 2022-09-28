@@ -16,12 +16,25 @@ export default function CharacterDetails({character, closeHandler} ) {
 
           <View style={styles.characterDetailContainer}>
             <Text style={styles.characterDetailHeader}>{'Status: '} </Text>
-            { character.status === 'Alive' ? ( <Image style={styles.characterDetailIcon} source={require('./green_heart.png')}/> ):(<></>)}
-            { character.status === 'Dead' ? ( <Image style={styles.characterDetailIcon} source={require('./rip.png')}/> ):(<></>)}
-            { character.status === 'unknown' ? ( <Image style={styles.characterDetailIcon} source={require('./unknown_icon.png')}/> ):(<></>)}
-            { character.status === 'Alive' ? (<Text style={styles.aliveStatus}> {character.status}</Text>) : (<></>)}
-            { character.status === 'Dead' ? (<Text style={styles.deadStatus}> {character.status}</Text>) : (<></>)}
-            { character.status === 'unknown' ? (<Text style={styles.characterInformationText}> {character.status}</Text>) : (<></>)}
+
+            { character.status === 'Alive' ? ( 
+              <>
+                <Image style={styles.characterDetailIcon} source={require('./green_heart.png')}/> 
+                <Text style={styles.aliveStatus}> {character.status}</Text>
+              </>
+            ):(<></>)}
+            { character.status === 'Dead' ? ( 
+              <>
+                <Image style={styles.characterDetailIcon} source={require('./rip.png')}/>
+                <Text style={styles.deadStatus}> {character.status}</Text> 
+              </>
+             ):(<></>)}
+            { character.status === 'unknown' ? ( 
+            <>
+              <Image style={styles.characterDetailIcon} source={require('./unknown_icon.png')}/>
+              <Text style={styles.characterInformationText}> {character.status}</Text>
+            </>
+            ):(<></>)}
           </View>
           
           <View style={styles.characterDetailContainer}>
@@ -60,7 +73,10 @@ export default function CharacterDetails({character, closeHandler} ) {
 
           <View style={styles.closeButtonContainer}>
               <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
+                <>
                   <Image style={styles.closeButton} source={require('../close_button_icon.png')}/>
+                  <Text style={styles.buttonLegend}> Close </Text>
+                </>
               </TouchableHighlight>
           </View>
         </SafeAreaView>
