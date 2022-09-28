@@ -1,0 +1,10 @@
+[Fetch] Me llamaron con: https://rickandmortyapi.com/api/character
+
+Name:Rick
+species:
+type:
+status:
+gender:
+[ModalFilter]: Rick,,,,
+[Address] Generé: https://rickandmortyapi.com/api/character?name=Rick&species=&type=&status=&gender=
+[Fetch] Me llamaron con: https://rickandmortyapi.com/api/character?page=2

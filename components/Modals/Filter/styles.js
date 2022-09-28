@@ -78,20 +78,23 @@ export default styles = StyleSheet.create({
     },
 
     bottomButtonsContainer: {
+        marginTop: 20,
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        // justifyContent: 'flex-end',
     },
 
     closeButtonContainer: {
         flex: 1,
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         marginBottom: '5%'
     },
     acceptButtonContainer: {
         flex: 1,
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         marginBottom: '5%'
     },
     
@@ -99,6 +102,7 @@ export default styles = StyleSheet.create({
         width:40,
         height: 40,
     },
+
 
     modalImage: {
         borderTopRightRadius: 15,

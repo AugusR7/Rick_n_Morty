@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, Image, SafeAreaView, TouchableHighlight, TextInput} from 'react-native';
 import styles from './styles';
 
-export default function ModalFilter({closeHandler, searchByName, searchBySpecies, searchByType, searchByStatus, searchByGender, acceptHandler} ) {
+export default function ModalFilter({closeHandler, acceptHandler} ) {
   // const [nameFilter, setNameFilter ] = useState('')
   // const [speciesFilter, setSpeciesFilter ] = useState('')
   // const [typeFilter, setTypeFilter ] = useState('')
@@ -12,12 +12,9 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
   const [speciesFilter,  setSpeciesFilter] =   useState('');
   const [typeFilter,  setTypeFilter] =   useState('');
 
-  //var nameFilter = '';
-  //var speciesFilter = '';
-  //var typeFilter = '';
   var statusFilter = '';
   var genderFilter = '';
-  var filterAttributes = [nameFilter,speciesFilter,typeFilter,statusFilter,genderFilter];
+
 
   return (
     <>
@@ -34,7 +31,7 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
               placeholderTextColor= 'gray'
               value = {nameFilter}
               onChangeText = {setNameFilter}
-              onSubmitEditing={() => searchByName(nameFilter)}
+              onSubmitEditing={() => setNameFilter(nameFilter)}
             />
           </View>
         </View>
@@ -48,7 +45,7 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
               placeholderTextColor= 'gray'
               value = {speciesFilter}
               onChangeText = {setSpeciesFilter}
-              onSubmitEditing={() => searchBySpecies(speciesFilter)}
+              onSubmitEditing={() => setSpeciesFilter(speciesFilter) }
             />
           </View>
         </View>
@@ -62,7 +59,7 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
               placeholderTextColor= 'gray'
               value = {typeFilter}
               onChangeText = {setTypeFilter}
-              onSubmitEditing={() => searchByType(typeFilter)}
+              onSubmitEditing={() => setTypeFilter(typeFilter)}
             />
           </View>
         </View>
@@ -72,48 +69,48 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
           <View style={styles.buttonFilterContainer}>
             {statusSelection==='Alive'? (
             <>
-              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(''); searchByStatus(statusFilter)}} style={styles.itemContainerSelected}>
+              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter); }} style={styles.itemContainerSelected}>
                 <Text style={styles.detailedFilterItem}>Alive</Text>
               </TouchableHighlight>
             </>):(
             <>
-              <TouchableHighlight onPress={() => {statusFilter='Alive'; setStatusSelection('Alive'); searchByStatus(statusFilter)}} style={styles.itemContainer}>
+              <TouchableHighlight onPress={() => {statusFilter='Alive'; setStatusSelection(statusFilter);}} style={styles.itemContainer}>
                 <Text style={styles.detailedFilterItem}>Alive</Text>
               </TouchableHighlight>
             </>)}
             
             {statusSelection==='Dead'? (
             <>
-              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(''); searchByStatus(statusFilter)}} style={styles.itemContainerSelected}>
+              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter); }} style={styles.itemContainerSelected}>
               <Text style={styles.detailedFilterItem}>Dead</Text>
             </TouchableHighlight>
             </>):(
             <>
-              <TouchableHighlight onPress={() => {statusFilter='Dead'; setStatusSelection('Dead');searchByStatus(statusFilter)}} style={styles.itemContainer}>
+              <TouchableHighlight onPress={() => {statusFilter='Dead'; setStatusSelection(statusFilter);}} style={styles.itemContainer}>
               <Text style={styles.detailedFilterItem}>Dead</Text>
             </TouchableHighlight>
             </>)}
 
             {statusSelection==='Unknown'? (
             <>
-              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection('');searchByStatus(statusFilter)}} style={styles.itemContainerSelected}>
+              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter);}} style={styles.itemContainerSelected}>
               <Text style={styles.detailedFilterItem}>Unknown</Text>
             </TouchableHighlight>
             </>):(
             <>
-              <TouchableHighlight onPress={() => {statusFilter='Unknown'; setStatusSelection('Unknown');searchByStatus(statusFilter)}} style={styles.itemContainer}>
+              <TouchableHighlight onPress={() => {statusFilter='Unknown'; setStatusSelection(statusFilter);}} style={styles.itemContainer}>
               <Text style={styles.detailedFilterItem}>Unknown</Text>
             </TouchableHighlight>
             </>)}
 
             {statusSelection===''? (
             <>
-              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection('');searchByStatus(statusFilter)}} style={styles.itemContainerSelected}>
+              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter);}} style={styles.itemContainerSelected}>
               <Text style={styles.detailedFilterItem}>All Status</Text>
             </TouchableHighlight>
             </>):(
             <>
-              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection('');searchByStatus(statusFilter)}} style={styles.itemContainer}>
+              <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter);}} style={styles.itemContainer}>
               <Text style={styles.detailedFilterItem}>All Status</Text>
             </TouchableHighlight>
             </>)}
@@ -124,64 +121,64 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
         <View style={styles.filterContainer}>
           <Text style={styles.filterHeader}>Gender: </Text>
           <View style={styles.buttonFilterContainer}>
-            {genderFilter === "Female"? (
+            {genderSelection === "Female"? (
               <>
-                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(''); searchByGender(genderFilter)}} style={styles.itemContainerSelected}>
+                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(genderFilter);}} style={styles.itemContainerSelected}>
                 <Text style={styles.detailedFilterItem}>Female</Text>
               </TouchableHighlight>
               </>):(
               <>
-                <TouchableHighlight onPress={() => {{genderFilter='Female'; setGenderSelection('Female'); searchByGender(genderFilter)}}} style={styles.itemContainer}>
+                <TouchableHighlight onPress={() => {{genderFilter='Female'; setGenderSelection(genderFilter);}}} style={styles.itemContainer}>
                 <Text style={styles.detailedFilterItem}>Female</Text>
               </TouchableHighlight>
             </>)}
 
-            {genderFilter === "Male"? (
+            {genderSelection === "Male"? (
               <>
-                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(''); searchByGender(genderFilter)}} style={styles.itemContainerSelected}>
+                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(genderFilter);}} style={styles.itemContainerSelected}>
                 <Text style={styles.detailedFilterItem}>Male</Text>
               </TouchableHighlight>
               </>):(
               <>
-                <TouchableHighlight onPress={() => {genderFilter='Male'; setGenderSelection('Male'); searchByGender(genderFilter)}} style={styles.itemContainer}>
+                <TouchableHighlight onPress={() => {genderFilter='Male'; setGenderSelection(genderFilter);}} style={styles.itemContainer}>
                 <Text style={styles.detailedFilterItem}>Male</Text>
               </TouchableHighlight>
             </>)}
 
-            {genderFilter === "Genderless"? (
+            {genderSelection === "Genderless"? (
               <>
-                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(''); searchByGender(genderFilter)}} style={styles.itemContainerSelected}>
+                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(genderFilter);}} style={styles.itemContainerSelected}>
                 <Text style={styles.detailedFilterItem}>Genderless</Text>
               </TouchableHighlight>
               </>):(
               <>
-                <TouchableHighlight onPress={() => {genderFilter='Genderless'; setGenderSelection('Genderless'); searchByGender(genderFilter)}} style={styles.itemContainer}>
+                <TouchableHighlight onPress={() => {genderFilter='Genderless'; setGenderSelection(genderFilter);}} style={styles.itemContainer}>
                 <Text style={styles.detailedFilterItem}>Genderless</Text>
               </TouchableHighlight>
             </>)}
 
           </View>
           <View style={styles.buttonFilterContainerSecondRow}>
-            {genderFilter === "Unknown"? (
+            {genderSelection === "Unknown"? (
               <>
-                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(''); searchByGender(genderFilter)}} style={styles.itemContainerSelected}>
+                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(genderFilter);}} style={styles.itemContainerSelected}>
                 <Text style={styles.detailedFilterItem}>Unknown</Text>
               </TouchableHighlight>
               </>):(
               <>
-                <TouchableHighlight onPress={() => {genderFilter='Unknown'; setGenderSelection('Unknown'); searchByGender(genderFilter)}} style={styles.itemContainer}>
+                <TouchableHighlight onPress={() => {genderFilter='Unknown'; setGenderSelection(genderFilter);}} style={styles.itemContainer}>
                 <Text style={styles.detailedFilterItem}>Unknown</Text>
               </TouchableHighlight>
             </>)}
 
-            {genderFilter === ''? (
+            {genderSelection === ''? (
               <>
-                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(''); searchByGender(genderFilter)}} style={styles.itemContainerSelected}>
+                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(genderFilter);}} style={styles.itemContainerSelected}>
                 <Text style={styles.detailedFilterItem}>All Gender</Text>
               </TouchableHighlight>
               </>):(
               <>
-                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(''); searchByGender(genderFilter)}} style={styles.itemContainer}>
+                <TouchableHighlight onPress={() => {genderFilter=''; setGenderSelection(genderFilter); }} style={styles.itemContainer}>
                 <Text style={styles.detailedFilterItem}>All Gender</Text>
               </TouchableHighlight>
             </>)}
@@ -193,13 +190,29 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
         <View style={styles.bottomButtonsContainer}>
           <View style={styles.closeButtonContainer}>
               <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
+                <>
                   <Image style={styles.closeButton} source={require('../close_button_icon.png')}/>
+                  <Text style={styles.buttonLegend}> Close </Text>
+                </>
               </TouchableHighlight>
           </View>
           <View style={styles.acceptButtonContainer}>
-              <TouchableHighlight onPress={() => acceptHandler()} style={styles.touchableIcon}>
+            <TouchableHighlight onPress={() =>{
+                var filterAttributes = [nameFilter,speciesFilter,typeFilter,statusSelection,genderSelection];
+                // console.log("Name:" +nameFilter);
+                // console.log("species:" +speciesFilter);
+                // console.log("type:" +typeFilter);
+                // console.log("status:" +statusSelection);
+                // console.log("gender:" +genderSelection);
+                // console.log("[ModalFilter]: "+filterAttributes);
+                acceptHandler(filterAttributes)}}
+                style={styles.touchableIcon}>
+                <>
                   <Image style={styles.closeButton} source={require('../accept_button_icon.png')}/>
-              </TouchableHighlight>
+                  <Text style={styles.buttonLegend}> Apply </Text>
+                </>
+
+            </TouchableHighlight>
           </View>
         </View>
       </SafeAreaView>

@@ -10,10 +10,10 @@ export default function App() {
   const [characters,  setCharacters] =       useState();
   const [loading,       setLoading] =        useState(true);
   const [nextAddress,   setNextAddress] =    useState('https://rickandmortyapi.com/api/character');
-  //var filterAddress = ''
   const [showModal,     setShowModal] =      useState(false);
   const [characterModal,setCharacterModal] = useState({});
   const [showFilter,    setShowfilter] =     useState(false);
+  
   // ----------------------- filtros ----------------------- //
   var nameFilter = '';
   var speciesFilter = '';
@@ -23,60 +23,21 @@ export default function App() {
 
   // ---------------------------------- Callbacks (handlers) ---------------------------------- //
 
-  const generateSearchAddress = () => {
+  const generateSearchAddress = (filterAttributes) => {
     var address = 'https://rickandmortyapi.com/api/character?'
-    +  'name='   +  nameFilter 
-    + '&species='+  speciesFilter 
-    + '&type='   +  typeFilter
-    + '&status=' +  statusFilter
-    + '&gender=' +  genderFilter;
-    console.log("[A] Generé: "+address);
+    + 'name='    +  filterAttributes[0]
+    + '&species='+  filterAttributes[1]
+    + '&type='   +  filterAttributes[2]
+    + '&status=' +  filterAttributes[3]
+    + '&gender=' +  filterAttributes[4]
+    console.log("[Address] Generé: "+address);
     setNextAddress(address);
-    //getCharactersFromAPI(address);
+    getCharactersFromAPI(address);
   }
 
-  const searchByName = (name) => {
-    console.log("[N] Me llamaron con: "+name);
-    nameFilter = name;
-    generateSearchAddress();
-  };
-
-  const searchBySpecies = (species) => {
-    console.log("[Sp] Me llamaron con: "+species);
-    speciesFilter = species;
-    generateSearchAddress();
-  };
-
-  const searchByType = (type) => {
-    console.log("[T] Me llamaron con: "+type);
-    typeFilter = type;
-    generateSearchAddress();
-  };
-
-  const searchByStatus = (status) => {
-    console.log("[St] Me llamaron con: "+status);
-    statusFilter = status;
-    generateSearchAddress();
-  };
-  const searchByGender = (gender) => {
-    console.log("[G] Me llamaron con: "+gender);
-    genderFilter = gender;
-    generateSearchAddress();
-  };
-
   // ---------------------------------- Fetch functions ---------------------------------- //
-  // const getCharactersFromAPI = () => {
-  //   fetch(nextAddress)
-  //     .then(response => response.json())
-  //     .then(response => {
-  //       setCharacters(response.results);
-  //       setNextAddress(response.info.next);
-  //       setLoading(false);
-  //     });
-  // };
-
   const getCharactersFromAPI = (filteredAddress) => {
-    console.log("[F] Me llamaron con: "+filteredAddress);
+    console.log("[Fetch] Me llamaron con: "+filteredAddress+"\n");
     fetch(filteredAddress)
       .then(response => response.json())
       .then(response => {
@@ -101,22 +62,22 @@ export default function App() {
       });
   };
 
-
   // ------------------------------------------------------------------------------------- //
   useEffect( ()=> {
     getCharactersFromAPI(nextAddress);
   }, []);
+
   // ---------------------------------- Press handlers ---------------------------------- //
   const pressHandler = (character) =>{
     setShowModal(true);
     setCharacterModal(character)
   };
 
-  const acceptHandler = () => {
+  const acceptHandler = (filterAttributes) => {
     setShowModal(false);
     setShowfilter(false);
     setCharacterModal({});
-    getCharactersFromAPI(nextAddress);
+    generateSearchAddress(filterAttributes);
   };
 
   const closeHandler = () => {
@@ -128,7 +89,6 @@ export default function App() {
     setShowfilter(true);
   };
 
-  // const 
   // ---------------------------------- Character Render ---------------------------------- //
   const characterRender = ({item}) => (
     <>
@@ -178,11 +138,6 @@ export default function App() {
         <ModalFilter
           acceptHandler =   {acceptHandler}
           closeHandler  =   {closeHandler}
-          searchByName =    {searchByName}
-          searchBySpecies = {searchBySpecies}
-          searchByType =    {searchByType}
-          searchByStatus =  {searchByStatus}
-          searchByGender =  {searchByGender}
           />
       </Modal>
     </SafeAreaView>
