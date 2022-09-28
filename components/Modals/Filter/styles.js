@@ -77,7 +77,18 @@ export default styles = StyleSheet.create({
         flexDirection: 'row',
     },
 
+    bottomButtonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+
     closeButtonContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        marginBottom: '5%'
+    },
+    acceptButtonContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-end',

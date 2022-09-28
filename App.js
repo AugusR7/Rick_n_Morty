@@ -32,7 +32,7 @@ export default function App() {
     + '&gender=' +  genderFilter;
     console.log("[A] Generé: "+address);
     setNextAddress(address);
-    getCharactersFromAPI(address);
+    //getCharactersFromAPI(address);
   }
 
   const searchByName = (name) => {
@@ -112,6 +112,13 @@ export default function App() {
     setCharacterModal(character)
   };
 
+  const acceptHandler = () => {
+    setShowModal(false);
+    setShowfilter(false);
+    setCharacterModal({});
+    getCharactersFromAPI(nextAddress);
+  };
+
   const closeHandler = () => {
     setShowModal(false);
     setShowfilter(false);
@@ -169,6 +176,7 @@ export default function App() {
 
       <Modal transparent={true} visible={showFilter} animationType="slide">
         <ModalFilter
+          acceptHandler =   {acceptHandler}
           closeHandler  =   {closeHandler}
           searchByName =    {searchByName}
           searchBySpecies = {searchBySpecies}

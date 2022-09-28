@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, Image, SafeAreaView, TouchableHighlight, TextInput} from 'react-native';
 import styles from './styles';
 
-export default function ModalFilter({closeHandler, searchByName, searchBySpecies, searchByType, searchByStatus, searchByGender} ) {
+export default function ModalFilter({closeHandler, searchByName, searchBySpecies, searchByType, searchByStatus, searchByGender, acceptHandler} ) {
   // const [nameFilter, setNameFilter ] = useState('')
   // const [speciesFilter, setSpeciesFilter ] = useState('')
   // const [typeFilter, setTypeFilter ] = useState('')
@@ -13,6 +13,8 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
   var typeFilter = '';
   var statusFilter = '';
   var genderFilter = '';
+  var filterAttributes = [nameFilter,speciesFilter,typeFilter,statusFilter,genderFilter];
+
   return (
     <>
       <SafeAreaView style={styles.modalContainer}>
@@ -24,10 +26,10 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
           <View style={styles.textFilterContainer}>
             <TextInput 
               style={styles.filterTextInput}
-              // value = {nameFilter}
-              placeholder = "Character NAME..."
-              placeholderTextColor= 'black'
-              onChange={() => searchByName(nameFilter)}
+              value = {nameFilter}
+              placeholder = "Insert NAME"
+              placeholderTextColor= 'gray'
+              onTextInput={() => searchByName(nameFilter)}
             />
           </View>
         </View>
@@ -38,8 +40,8 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
             <TextInput 
               style={styles.filterTextInput}
               value = {speciesFilter}
-              placeholder = "Character SPECIES..."
-              placeholderTextColor= 'black'
+              placeholder = "Insert SPECIES"
+              placeholderTextColor= 'gray'
               onChange={() => searchBySpecies(speciesFilter)}
             />
           </View>
@@ -51,8 +53,8 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
             <TextInput 
               style={styles.filterTextInput}
               value = {typeFilter}
-              placeholder = "Character TYPE..."
-              placeholderTextColor= 'black'
+              placeholder = "Insert TYPE"
+              placeholderTextColor= 'gray'
               onChange={() => searchByType(typeFilter)}
             />
           </View>
@@ -180,10 +182,18 @@ export default function ModalFilter({closeHandler, searchByName, searchBySpecies
           </View>
         </View>
         
-        <View style={styles.closeButtonContainer}>
-            <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
-                <Image style={styles.closeButton} source={require('../close_button_icon.png')}/>
-            </TouchableHighlight>
+        
+        <View style={styles.bottomButtonsContainer}>
+          <View style={styles.closeButtonContainer}>
+              <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
+                  <Image style={styles.closeButton} source={require('../close_button_icon.png')}/>
+              </TouchableHighlight>
+          </View>
+          <View style={styles.acceptButtonContainer}>
+              <TouchableHighlight onPress={() => acceptHandler()} style={styles.touchableIcon}>
+                  <Image style={styles.closeButton} source={require('../accept_button_icon.png')}/>
+              </TouchableHighlight>
+          </View>
         </View>
       </SafeAreaView>
     </>
