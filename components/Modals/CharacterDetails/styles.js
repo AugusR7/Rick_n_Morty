@@ -5,10 +5,10 @@ export default styles = StyleSheet.create({
         marginTop: '20%',
         borderRadius: 15,
         backgroundColor: '#555555',
-        width: '80%',
-        height: '83%', 
-        alignSelf: 'center',
+        //width: '80%',
+        //height: '83%', 
         blurRadius: 90,
+        flexShrink: 1,
     },
 
     characterDetailHeader: {
@@ -27,20 +27,21 @@ export default styles = StyleSheet.create({
         fontSize: 23,
         fontWeight: 'bold',
         color: 'lightgreen',
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     
     deadStatus: {
         fontSize: 23,
         fontWeight: 'bold',
         color: 'red',
-        alignSelf: 'center'
+        alignSelf: 'center',
     }, 
 
     characterDetailContainer:{
         flexDirection: 'row',
         marginLeft: '5%',
         marginBottom: '3%',
+        flexWrap: 'wrap'
     },
   
     characterDetailContainerTruncated: {
@@ -67,20 +68,17 @@ export default styles = StyleSheet.create({
     },
 
     closeButtonContainer: {
-        flex: 1,
+        position: 'absolute',
+        alignSelf: 'flex-end',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        marginBottom: '5%'
+        marginTop: '4%',
+        marginRight: '10%',
+        flexShrink: 1,
     },
     
     closeButton: {
         width:40,
         height: 40,
-    },
-
-    buttonLegend: {
-        color: 'white',
-        fontSize: 16,
     },
 
     modalImage: {

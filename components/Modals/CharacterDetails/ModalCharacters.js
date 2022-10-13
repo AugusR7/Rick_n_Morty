@@ -1,18 +1,29 @@
 import React from 'react';
-import { Text, View, Image, SafeAreaView, TouchableHighlight} from 'react-native';
+import {ScrollView, Text, View, Image, SafeAreaView, TouchableHighlight} from 'react-native';
 import styles from './styles';
 
 export default function CharacterDetails({character, closeHandler} ) {
     return (
       <>
         <SafeAreaView style={styles.modalContainer}>
+        
+
+
+
           <View style={styles.modalImageContainer}>
             <Image style={styles.modalImage} source={{uri: character.image}} />
+          </View>
+
+          <View style={styles.closeButtonContainer}>
+                <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
+                    <Image style={styles.closeButton} source={require('../close_button_icon.png')}/>
+                </TouchableHighlight>
           </View>
 
           <Text style={styles.detailedName}>{character.name}</Text>
 
           <View style={styles.modalSeparator}/>
+          <ScrollView>
 
           <View style={styles.characterDetailContainer}>
             <Text style={styles.characterDetailHeader}>{'Status: '} </Text>
@@ -71,14 +82,8 @@ export default function CharacterDetails({character, closeHandler} ) {
             </View>
           </View>
 
-          <View style={styles.closeButtonContainer}>
-              <TouchableHighlight onPress={() => closeHandler()} style={styles.touchableIcon}>
-                <>
-                  <Image style={styles.closeButton} source={require('../close_button_icon.png')}/>
-                  <Text style={styles.buttonLegend}> Close </Text>
-                </>
-              </TouchableHighlight>
-          </View>
+
+          </ScrollView>
         </SafeAreaView>
       </>
     );
