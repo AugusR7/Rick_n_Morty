@@ -7,9 +7,6 @@ export default function CharacterDetails({character, closeHandler} ) {
       <>
         <SafeAreaView style={styles.modalContainer}>
         
-
-
-
           <View style={styles.modalImageContainer}>
             <Image style={styles.modalImage} source={{uri: character.image}} />
           </View>

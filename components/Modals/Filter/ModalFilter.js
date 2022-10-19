@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Image, SafeAreaView, TouchableHighlight, TextInput} from 'react-native';
+import { Text, ScrollView, View, Image, SafeAreaView, TouchableHighlight, TextInput} from 'react-native';
 import styles from './styles';
 
 export default function ModalFilter({closeHandler, acceptHandler} ) {
@@ -16,9 +16,10 @@ export default function ModalFilter({closeHandler, acceptHandler} ) {
   return (
     <>
       <SafeAreaView style={styles.modalContainer}>
-        <Text style={styles.introductionText}> FILTER BY:</Text>
+        <Text style={styles.introductionText}>FILTER BY:</Text>
         <View style={styles.modalSeparator}/>
 
+        <ScrollView>
         <View style={styles.filterContainer}>
           <Text style={styles.filterHeader}>Name: </Text>
           <View style={styles.textFilterContainer}>
@@ -89,7 +90,7 @@ export default function ModalFilter({closeHandler, acceptHandler} ) {
             </>)}
             
           </View>
-          <View style={styles.buttonFilterContainer}>
+          <View style={styles.buttonFilterContainerSecondRow}>
           {statusSelection==='Unknown'? (
             <>
               <TouchableHighlight onPress={() => {statusFilter=''; setStatusSelection(statusFilter);}} style={styles.itemContainerSelected}>
@@ -184,7 +185,8 @@ export default function ModalFilter({closeHandler, acceptHandler} ) {
 
           </View>
         </View>
-        
+
+        </ScrollView>
         
         <View style={styles.bottomButtonsContainer}>
           <View style={styles.closeButtonContainer}>
@@ -204,7 +206,6 @@ export default function ModalFilter({closeHandler, acceptHandler} ) {
                   <Image style={styles.applyButton} source={require('../accept_button_icon.png')}/>
                   <Text style={styles.buttonLegend}> Apply </Text>
                 </>
-
             </TouchableHighlight>
           </View>
         </View>

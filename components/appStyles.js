@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { PixelRatio, StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
     SAVcontainer: {
@@ -12,7 +12,8 @@ export default styles = StyleSheet.create({
       alignSelf: 'center',
       flexDirection: 'row',
       backgroundColor: 'black',
-      height: 200,
+      // height: 200,
+      height: PixelRatio.getPixelSizeForLayoutSize(60),
       width: '100%',
     },
   
@@ -26,7 +27,6 @@ export default styles = StyleSheet.create({
       borderRadius: 10,
       backgroundColor: 'lightyellow',
       width: '50%',
-      height: 40,
     },
   
     text: {

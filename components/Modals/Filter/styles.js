@@ -1,12 +1,12 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, PixelRatio } from "react-native";
 
 export default styles = StyleSheet.create({
     modalContainer: {
-        marginTop: '28%',
+        marginTop: '13%',
         borderRadius: 15,
         backgroundColor: '#555555',
         width: '80%',
-        height: '80%', 
+        height: '88%',
         alignSelf: 'center',
         blurRadius: 90,
     },
@@ -17,6 +17,7 @@ export default styles = StyleSheet.create({
         height: undefined,
         width: undefined,
     },
+
     aliveStatus: {
         fontSize: 23,
         fontWeight: 'bold',
@@ -49,12 +50,14 @@ export default styles = StyleSheet.create({
     buttonFilterContainerSecondRow: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20,
+        // marginTop: 20,
+        marginTop: PixelRatio.getPixelSizeForLayoutSize(4),
     },
 
     textFilterContainer: {
         width: '95%',
-        height: 50,
+        // height: 35,
+        height: PixelRatio.getPixelSizeForLayoutSize(13),
     },
 
     modalSeparator: {
@@ -76,11 +79,8 @@ export default styles = StyleSheet.create({
     },
 
     bottomButtonsContainer: {
-        flex: 1,
-        marginTop: 20,
+        marginTop: 5,
         flexDirection: 'row',
-        alignSelf:'flex-end',
-        justifyContent: 'flex-end',
     },
 
     closeButtonContainer: {
@@ -125,24 +125,29 @@ export default styles = StyleSheet.create({
     },
 
     introductionText: {
-        fontSize: 34,
+        textAlign: 'center',
+        // fontSize: 30,
+        fontSize: PixelRatio.getPixelSizeForLayoutSize(10.5),
         fontWeight: 'bold',
-        margin: 10,
         color: 'white',
-        marginTop: 10,
+        marginTop: PixelRatio.getPixelSizeForLayoutSize(5),
+        marginBottom: PixelRatio.getPixelSizeForLayoutSize(5),
     },
 
     filterHeader: {
-        fontSize: 24,
+        // fontSize: 24,
+        fontSize: PixelRatio.getPixelSizeForLayoutSize(9.5),
         fontWeight: 'bold',
         color: 'darkgrey',
-        marginBottom: 10,
+        // marginBottom: 10,
+        marginBottom: PixelRatio.getPixelSizeForLayoutSize(2),
     },
 
     itemContainer: {
         paddingLeft: 7,
         paddingRight: 7,
-        height: 30,
+        // height: 30,
+        height: PixelRatio.getPixelSizeForLayoutSize(10),
         justifyContent: 'center',
         borderRadius: 8,
         backgroundColor: 'white',
@@ -152,7 +157,8 @@ export default styles = StyleSheet.create({
     itemContainerSelected: {
         paddingLeft: 7,
         paddingRight: 7,
-        height: 30,
+        // height: 30,
+        height: PixelRatio.getPixelSizeForLayoutSize(10),
         justifyContent: 'center',
         borderRadius: 8,
         backgroundColor: 'lightblue',
@@ -160,30 +166,22 @@ export default styles = StyleSheet.create({
         borderWidth: 2,
     },
 
-    itemContainerSingle: {
-        marginTop: 20,
-        paddingLeft: 7,
-        paddingRight: 7,
-        width: 100,
-        height: 30,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        borderRadius: 8,
-    },
-
     detailedFilterItem: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 18,
+        // fontSize: 18,
+        fontSize: PixelRatio.getPixelSizeForLayoutSize(6),
     },
 
     filterTextInput: {
         height: '100%',
+        backgroundColor: 'red',
         borderRadius: 5,
         backgroundColor: 'white',
         color: 'black',
         textAlign: 'center',
-        fontSize: 25,
+        // fontSize: 25,
+        fontSize: PixelRatio.getPixelSizeForLayoutSize(9),
         fontWeight: 'bold',
     },
     
