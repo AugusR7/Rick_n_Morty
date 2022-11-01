@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Text, View, ActivityIndicator, FlatList, Image, SafeAreaView, TouchableHighlight, Modal} from 'react-native';
+import { Animated, Text, View, ActivityIndicator, FlatList, Image, SafeAreaView, TouchableHighlight, Modal} from 'react-native';
 import HeaderBar from './components/HeaderBar/headerBar';
 import CharacterDetails from './components/Modals/CharacterDetails/ModalCharacters';
 import ModalFilter from './components/Modals/Filter/ModalFilter'
