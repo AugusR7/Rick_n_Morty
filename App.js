@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { Animated, Text, View, ActivityIndicator, FlatList, Image, SafeAreaView, TouchableHighlight, Modal} from 'react-native';
+import { Animated, Text, View, ActivityIndicator, FlatList, Image, SafeAreaView, TouchableHighlight, Modal, PixelRatio} from 'react-native';
 import HeaderBar from './components/HeaderBar/headerBar';
 import CharacterDetails from './components/Modals/CharacterDetails/ModalCharacters';
 import ModalFilter from './components/Modals/Filter/ModalFilter'
 import styles from './components/appStyles';
+
+const AVATAR_SIZE = 150; 
+const SPACING = 20;
+const ITEM_SIZE = AVATAR_SIZE + SPACING*3;
+
 
 export default function App() {
   // ---------------------------------- State declarations ---------------------------------- //
@@ -84,23 +89,41 @@ export default function App() {
   };
 
   // ---------------------------------- Character Render ---------------------------------- //
-  const characterRender = ({item}) => (
-    <>
-      <TouchableHighlight onPress={() => { pressHandler(item) }} style={styles.touchableIcon}>
-        <View style={styles.elementWrap}>
-          
-          <View style={styles.imageContainer}>
-            <Image style={styles.image} source={{uri: item.image}} />
-          </View>
+  const characterRender = ({item, index}) => {
+    const inputRange = [-1,0,ITEM_SIZE*index,ITEM_SIZE*(index+2)]
+    const opacityInputRange = [-1,0,ITEM_SIZE*index,ITEM_SIZE*(index+1)]
+    const scale = scrollY.interpolate({
+      inputRange,
+      outputRange: [1,1,1,0]
+    })
+    const opacity = scrollY.interpolate({
+      inputRange: opacityInputRange,
+      outputRange: [1,1,1,0]
+    })
+    return <TouchableHighlight onPress={() => { pressHandler(item) }} style={styles.touchableIcon}>
+      <Animated.View style={{
+              alignSelf: 'center',
+              flexDirection: 'row',
+              marginTop: SPACING,
+              backgroundColor: 'rgba(0,0,0,0.8)',
+              borderRadius: 12,
+              height: PixelRatio.getPixelSizeForLayoutSize(60),
+              width: '100%',
+              transform:[{scale}],
+              opacity
+      }}>
+        
+        <Image style={styles.image} source={{uri: item.image}} />
 
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>{item.name}</Text>
-          </View>
-
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>{item.name}</Text>
         </View>
-      </TouchableHighlight>
-    </>
-  );
+
+      </Animated.View>
+    </TouchableHighlight>
+  };
+
+  const scrollY = React.useRef(new Animated.Value(0)).current;
   // ---------------------------------- Screen Render ---------------------------------- //
   return (
     <SafeAreaView style={styles.SAVcontainer}>
@@ -112,13 +135,20 @@ export default function App() {
       {loading ? (
         <ActivityIndicator size="large" animating={loading} />
       ) : (
-        <FlatList
-          style = {styles.listElement}
+        <Animated.FlatList
+          style = {styles.flatlistStyle}
           keyExtractor = {item => item.id}
           data = {characters}
           onEndReached = {getNewCharactersFromAPI}
           renderItem = {characterRender}
-          ItemSeparatorComponent={ () => <View style={styles.separator} /> }
+          contentContainerStyle = {{
+            padding: SPACING,
+            paddingTop: 0,
+          }}
+          onScroll = {Animated.event(
+            [{nativeEvent: {contentOffset: {y: scrollY}}}],
+            {useNativeDriver: true}
+          )}
         />
       )}
       <Modal transparent={true} visible={showModal} animationType="slide">
