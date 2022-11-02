@@ -1,5 +1,10 @@
 import { PixelRatio, StyleSheet } from 'react-native';
 
+const AVATAR_SIZE = 150; 
+const SPACING = 20;
+const ITEM_SIZE = AVATAR_SIZE + SPACING*3;
+
+
 export default styles = StyleSheet.create({
     SAVcontainer: {
       flex: 1,
@@ -8,18 +13,32 @@ export default styles = StyleSheet.create({
       backgroundColor: 'black',
     },
   
-    elementWrap:{
-      alignSelf: 'center',
-      flexDirection: 'row',
-      backgroundColor: 'black',
-      // height: 200,
-      height: PixelRatio.getPixelSizeForLayoutSize(60),
-      width: '100%',
-    },
-  
-    listElement: {
+    flatlistStyle: {
       backgroundColor: '#555555',
       width: '100%',
+      flex: 1
+    },
+
+    characterRenderWrapper:{
+      alignSelf: 'center',
+      flexDirection: 'row',
+      marginTop: SPACING,
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      borderRadius: 12,
+      height: PixelRatio.getPixelSizeForLayoutSize(60),
+      width: '100%',
+      transform:[{scale}]
+    },
+    
+    image: {
+      borderRadius: AVATAR_SIZE,
+      height: AVATAR_SIZE,
+      width: AVATAR_SIZE,
+      alignSelf: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginLeft: SPACING/2,
+      marginRight: SPACING/2,
     },
   
     textContainer: {
@@ -36,27 +55,11 @@ export default styles = StyleSheet.create({
       textAlign: 'center',
     },
   
-    separator: {
-      width: '100%',
-      height: 1,
-      backgroundColor: 'grey',
-    },
-  
-    imageContainer: {
-      height: '95%',
-      width: '40%',
-      alignSelf: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginLeft: 10,
-      marginRight: 10,
-    },
-    
-    image: {
-      width: '100%',
-      height: '90%',
-      borderRadius: 100,
-    },
+    // separator: {
+    //   width: '100%',
+    //   height: 1,
+    //   backgroundColor: 'grey',
+    // },
   
     modalTopBarContainer: {
       flexDirection: 'row',
