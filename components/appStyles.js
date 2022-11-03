@@ -2,11 +2,10 @@ import { PixelRatio, StyleSheet } from 'react-native';
 
 const AVATAR_SIZE = 150; 
 const SPACING = 20;
-const ITEM_SIZE = AVATAR_SIZE + SPACING*3;
-
 
 export default styles = StyleSheet.create({
-    SAVcontainer: {
+
+  SAVcontainer: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
@@ -19,16 +18,16 @@ export default styles = StyleSheet.create({
       flex: 1
     },
 
-    characterRenderWrapper:{
-      alignSelf: 'center',
-      flexDirection: 'row',
-      marginTop: SPACING,
-      backgroundColor: 'rgba(0,0,0,0.8)',
-      borderRadius: 12,
-      height: PixelRatio.getPixelSizeForLayoutSize(60),
-      width: '100%',
-      transform:[{scale}]
-    },
+    // characterRenderWrapper:{
+    //   alignSelf: 'center',
+    //   flexDirection: 'row',
+    //   marginTop: SPACING,
+    //   backgroundColor: 'rgba(0,0,0,0.8)',
+    //   borderRadius: 12,
+    //   height: PixelRatio.getPixelSizeForLayoutSize(60),
+    //   width: '100%',
+    //   transform:[{scale}]
+    // },
     
     image: {
       borderRadius: AVATAR_SIZE,

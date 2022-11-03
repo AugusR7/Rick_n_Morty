@@ -5,7 +5,7 @@ import styles from './styles';
 export default function CharacterDetails({character, closeHandler} ) {
     return (
       <>
-        <SafeAreaView style={styles.modalContainer}>
+        <View style={styles.modalContainer}>
         
           <View style={styles.modalImageContainer}>
             <Image style={styles.modalImage} source={{uri: character.image}} />
@@ -81,7 +81,7 @@ export default function CharacterDetails({character, closeHandler} ) {
 
 
           </ScrollView>
-        </SafeAreaView>
+        </View>
       </>
     );
   };

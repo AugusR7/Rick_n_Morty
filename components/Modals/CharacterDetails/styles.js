@@ -2,11 +2,9 @@ import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
     modalContainer: {
-        marginTop: '15%',
+        marginTop: '40%',
         borderRadius: 15,
         backgroundColor: '#555555',
-        //width: '80%',
-        //height: '83%', 
         blurRadius: 90,
         flexShrink: 1,
     },
@@ -23,6 +21,7 @@ export default styles = StyleSheet.create({
         height: undefined,
         width: undefined,
     },
+
     aliveStatus: {
         fontSize: 23,
         fontWeight: 'bold',

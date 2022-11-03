@@ -125,44 +125,39 @@ export default function App() {
 
   const scrollY = React.useRef(new Animated.Value(0)).current;
   // ---------------------------------- Screen Render ---------------------------------- //
-  return (
+  return (    
     <SafeAreaView style={styles.SAVcontainer}>
-      
-      <HeaderBar 
+      <HeaderBar
         filterEnabler={filterEnabler}
-        closeHandler = {closeHandler}
-      />
+        closeHandler={closeHandler} />
       {loading ? (
         <ActivityIndicator size="large" animating={loading} />
       ) : (
         <Animated.FlatList
-          style = {styles.flatlistStyle}
-          keyExtractor = {item => item.id}
-          data = {characters}
-          onEndReached = {getNewCharactersFromAPI}
-          renderItem = {characterRender}
-          contentContainerStyle = {{
+          style={styles.flatlistStyle}
+          keyExtractor={item => item.id}
+          data={characters}
+          onEndReached={getNewCharactersFromAPI}
+          renderItem={characterRender}
+          contentContainerStyle={{
             padding: SPACING,
             paddingTop: 0,
           }}
-          onScroll = {Animated.event(
-            [{nativeEvent: {contentOffset: {y: scrollY}}}],
-            {useNativeDriver: true}
-          )}
-        />
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: true }
+          )} />
       )}
       <Modal transparent={true} visible={showModal} animationType="slide">
-        <CharacterDetails 
-          character={characterModal} 
-          closeHandler={closeHandler}
-          />
+        <CharacterDetails
+          character={characterModal}
+          closeHandler={closeHandler} />
       </Modal>
 
       <Modal transparent={true} visible={showFilter} animationType="slide">
         <ModalFilter
-          acceptHandler =   {acceptHandler}
-          closeHandler  =   {closeHandler}
-          />
+          acceptHandler={acceptHandler}
+          closeHandler={closeHandler} />
       </Modal>
     </SafeAreaView>
   );
