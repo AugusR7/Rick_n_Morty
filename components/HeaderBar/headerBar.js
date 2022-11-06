@@ -1,11 +1,21 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
-export default function headerBar({ filterEnabler, closeHandler }) {
+export default function headerBar() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.header}>
-      <View style={styles.leftIcon} />
+      <View style={styles.leftIcon}>
+        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+          <Image
+            source={require("./menu.png")}
+            style={{ width: 30, height: 30, marginLeft: 10 }}
+          />
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.centerElement}>
         <Image
@@ -15,9 +25,15 @@ export default function headerBar({ filterEnabler, closeHandler }) {
       </View>
 
       <View style={styles.rightIcon}>
-        {/* <TouchableHighlight onPress={ ()=> filterEnabler() } style={styles.touchableIcon}>
-                    <Image style={styles.filterIcon} source={require('./filter_icon.png')}/>
-                </TouchableHighlight> */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate("FilterScreen")}
+          style={{ width: 50, height: 50, marginLeft: 10 }}
+        >
+          <Image
+            style={styles.filterIcon}
+            source={require("./filter_icon.png")}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );

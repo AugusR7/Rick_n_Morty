@@ -5,12 +5,10 @@ import {
   Animated,
   Text,
   View,
-  Button,
   ActivityIndicator,
-  FlatList,
   Image,
   SafeAreaView,
-  TouchableHighlight,
+  TouchableOpacity,
   Modal,
   PixelRatio,
 } from "react-native";
@@ -18,8 +16,9 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import HeaderBar from "./components/HeaderBar/headerBar";
 import CharacterDetails from "./components/CharacterDetails/ModalCharacters";
-import ModalFilter from "./components/Filter/ModalFilter";
+import FilterScreenRenderer from "./components/Filter/FilterScreenRenderer";
 import styles from "./appStyles";
+import { Header } from "react-native/Libraries/NewAppScreen";
 
 const AVATAR_SIZE = 150;
 const SPACING = 20;
@@ -37,7 +36,6 @@ export default function App() {
   const [characterModal, setCharacterModal] = useState({});
   const [showFilter, setShowfilter] = useState(false);
   const scrollY = React.useRef(new Animated.Value(0)).current;
-
 
   // // ---------------------------------- Callbacks (handlers) ---------------------------------- //
   const generateSearchAddress = (filterAttributes) => {
@@ -111,42 +109,50 @@ export default function App() {
 
   // ---------------------------------- Character Render ---------------------------------- //
   function characterRender({ item, index }) {
-    const inputRange = [-1,0,ITEM_SIZE*index,ITEM_SIZE*(index+2)]
-    const opacityInputRange = [-1,0,ITEM_SIZE*index,ITEM_SIZE*(index+1)]
+    const inputRange = [-1, 0, ITEM_SIZE * index, ITEM_SIZE * (index + 2)];
+    const opacityInputRange = [
+      -1,
+      0,
+      ITEM_SIZE * index,
+      ITEM_SIZE * (index + 1),
+    ];
     const scale = scrollY.interpolate({
       inputRange,
-      outputRange: [1,1,1,0]
-    })
+      outputRange: [1, 1, 1, 0],
+    });
     const opacity = scrollY.interpolate({
       inputRange: opacityInputRange,
-      outputRange: [1,1,1,0]
-    })
+      outputRange: [1, 1, 1, 0],
+    });
     return (
-      <TouchableHighlight
+      <TouchableOpacity
         onPress={() => {
           pressHandler(item);
         }}
         style={styles.touchableIcon}
       >
-        <Animated.View style={{
-              alignSelf: 'center',
-              flexDirection: 'row',
-              marginTop: SPACING,
-              backgroundColor: 'rgba(0,0,0,0.8)',
-              borderRadius: 12,
-              height: PixelRatio.getPixelSizeForLayoutSize(60),
-              width: '100%',
-              transform:[{scale}],
-              opacity}}>
+        <Animated.View
+          style={{
+            alignSelf: "center",
+            flexDirection: "row",
+            marginTop: SPACING,
+            backgroundColor: "rgba(0,0,0,0.8)",
+            borderRadius: 12,
+            height: PixelRatio.getPixelSizeForLayoutSize(60),
+            width: "100%",
+            transform: [{ scale }],
+            opacity,
+          }}
+        >
           <Image style={styles.image} source={{ uri: item.image }} />
 
           <View style={styles.textContainer}>
             <Text style={styles.text}>{item.name}</Text>
           </View>
         </Animated.View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
-  };
+  }
 
   // ---------------------------------- Navigation Panes ---------------------------------- //
   function HomeScreen({ navigation }) {
@@ -158,19 +164,20 @@ export default function App() {
           <ActivityIndicator size="large" animating={loading} />
         ) : (
           <Animated.FlatList
-          style={styles.flatlistStyle}
-          keyExtractor={item => item.id}
-          data={characters}
-          onEndReached={getNewCharactersFromAPI}
-          renderItem={characterRender}
-          contentContainerStyle={{
-            padding: SPACING,
-            paddingTop: 0,
-          }}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: true }
-          )} />
+            style={styles.flatlistStyle}
+            keyExtractor={(item) => item.id}
+            data={characters}
+            onEndReached={getNewCharactersFromAPI}
+            renderItem={characterRender}
+            contentContainerStyle={{
+              padding: SPACING,
+              paddingTop: 0,
+            }}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true }
+            )}
+          />
         )}
 
         <Modal transparent={true} visible={showModal} animationType="slide">
@@ -185,7 +192,19 @@ export default function App() {
 
   function FilterScreen({ navigation }) {
     return (
-      <ModalFilter acceptHandler={acceptHandler} closeHandler={closeHandler} />
+      <SafeAreaView style={styles.SAVcontainer}>
+        <HeaderBar filterEnabler={filterEnabler} closeHandler={closeHandler} />
+        <FilterScreenRenderer acceptHandler={acceptHandler} closeHandler={closeHandler} />
+      </SafeAreaView>
+    );
+  }
+
+  function FavoritesScreen({ navigation }) {
+    return (
+      <SafeAreaView style={styles.SAVcontainer}>
+        <HeaderBar filterEnabler={filterEnabler} closeHandler={closeHandler} />
+        <FavoritesScreenRenderer acceptHandler={acceptHandler} closeHandler={closeHandler} />
+      </SafeAreaView>
     );
   }
 
@@ -195,14 +214,34 @@ export default function App() {
       <Drawer.Navigator
         screenOptions={{
           drawerStyle: {
-            backgroundColor: "black",
+            backgroundColor: "black",},
+          headerShown: false,
+          drawerActiveBackgroundColor: "lightyellow",
+          drawerLabelStyle: {
+            marginLeft: 25,
+            fontSize: 15,
+            fontWeight: "bold",
+            color: "darkgrey",
           },
         }}
         //useLegacyImplementation={true}
-        initialRouteName="Home"
+        initialRouteName="HomeScreen"
       >
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Filter" component={FilterScreen} />
+        <Drawer.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ headerTitle: () => <HeaderBar name="HomeScreen" /> }}
+        />
+        <Drawer.Screen
+          name="FilterScreen"
+          component={FilterScreen}
+          options={{ headerTitle: () => <HeaderBar name="FilterScreen" /> }}
+        />       
+        <Drawer.Screen
+          name="FavoritesScreen"
+          component={FavoritesScreen}
+          options={{ headerTitle: () => <HeaderBar name="FavoritesScreen" /> }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );

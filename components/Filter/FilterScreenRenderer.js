@@ -5,8 +5,7 @@ import {
   ScrollView,
   View,
   Image,
-  SafeAreaView,
-  TouchableHighlight,
+  TouchableOpacity,
   TextInput,
 } from "react-native";
 import styles from "./styles";
@@ -27,7 +26,7 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
 
   return (
     <>
-      <SafeAreaView style={styles.modalContainer}>
+      {/* <SafeAreaView style={styles.modalContainer}> */}
         <Text style={styles.introductionText}>FILTER BY:</Text>
         <View style={styles.modalSeparator} />
 
@@ -79,7 +78,7 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
             <View style={styles.buttonFilterContainer}>
               {statusSelection === "Alive" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       statusFilter = "";
                       setStatusSelection(statusFilter);
@@ -87,11 +86,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>Alive</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       statusFilter = "Alive";
                       setStatusSelection(statusFilter);
@@ -99,13 +98,13 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>Alive</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
 
               {statusSelection === "Dead" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       statusFilter = "";
                       setStatusSelection(statusFilter);
@@ -113,11 +112,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>Dead</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       statusFilter = "Dead";
                       setStatusSelection(statusFilter);
@@ -125,14 +124,14 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>Dead</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
             </View>
             <View style={styles.buttonFilterContainerSecondRow}>
               {statusSelection === "Unknown" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       statusFilter = "";
                       setStatusSelection(statusFilter);
@@ -140,11 +139,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>Unknown</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       statusFilter = "Unknown";
                       setStatusSelection(statusFilter);
@@ -152,13 +151,13 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>Unknown</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
 
               {statusSelection === "" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       statusFilter = "";
                       setStatusSelection(statusFilter);
@@ -166,11 +165,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>All Status</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       statusFilter = "";
                       setStatusSelection(statusFilter);
@@ -178,7 +177,7 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>All Status</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
             </View>
@@ -189,7 +188,7 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
             <View style={styles.buttonFilterContainer}>
               {genderSelection === "Female" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "";
                       setGenderSelection(genderFilter);
@@ -197,11 +196,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>Female</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       {
                         genderFilter = "Female";
@@ -211,13 +210,13 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>Female</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
 
               {genderSelection === "Male" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "";
                       setGenderSelection(genderFilter);
@@ -225,11 +224,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>Male</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "Male";
                       setGenderSelection(genderFilter);
@@ -237,13 +236,13 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>Male</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
 
               {genderSelection === "Genderless" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "";
                       setGenderSelection(genderFilter);
@@ -251,11 +250,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>Genderless</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "Genderless";
                       setGenderSelection(genderFilter);
@@ -263,14 +262,14 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>Genderless</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
             </View>
             <View style={styles.buttonFilterContainerSecondRow}>
               {genderSelection === "Unknown" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "";
                       setGenderSelection(genderFilter);
@@ -278,11 +277,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>Unknown</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "Unknown";
                       setGenderSelection(genderFilter);
@@ -290,13 +289,13 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>Unknown</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
 
               {genderSelection === "" ? (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "";
                       setGenderSelection(genderFilter);
@@ -304,11 +303,11 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainerSelected}
                   >
                     <Text style={styles.detailedFilterItem}>All Gender</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               ) : (
                 <>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       genderFilter = "";
                       setGenderSelection(genderFilter);
@@ -316,7 +315,7 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                     style={styles.itemContainer}
                   >
                     <Text style={styles.detailedFilterItem}>All Gender</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </>
               )}
             </View>
@@ -325,10 +324,10 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
 
         <View style={styles.bottomButtonsContainer}>
           <View style={styles.closeButtonContainer}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 closeHandler();
-                navigation.navigate("Home");
+                navigation.navigate("HomeScreen");
               }}
               style={styles.touchableIcon}
             >
@@ -339,10 +338,10 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                 />
                 <Text style={styles.buttonLegend}> Close </Text>
               </>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
           <View style={styles.acceptButtonContainer}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {
                 var filterAttributes = [
                   nameFilter,
@@ -352,7 +351,7 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                   genderSelection,
                 ];
                 acceptHandler(filterAttributes);
-                navigation.navigate("Home");
+                navigation.navigate("HomeScreen");
               }}
               style={styles.touchableIcon}
             >
@@ -363,10 +362,10 @@ export default function ModalFilter({ closeHandler, acceptHandler }) {
                 />
                 <Text style={styles.buttonLegend}> Apply </Text>
               </>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
-      </SafeAreaView>
+      {/* </SafeAreaView> */}
     </>
   );
 }

@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
 import styles from "./styles";
 
@@ -17,7 +17,7 @@ export default function CharacterDetails({ character, closeHandler }) {
         </View>
 
         <View style={styles.closeButtonContainer}>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => closeHandler()}
             style={styles.touchableIcon}
           >
@@ -25,7 +25,7 @@ export default function CharacterDetails({ character, closeHandler }) {
               style={styles.closeButton}
               source={require("../close_button_icon.png")}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.detailedName}>{character.name}</Text>
