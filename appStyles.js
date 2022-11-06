@@ -18,16 +18,15 @@ export default styles = StyleSheet.create({
       flex: 1
     },
 
-    // characterRenderWrapper:{
-    //   alignSelf: 'center',
-    //   flexDirection: 'row',
-    //   marginTop: SPACING,
-    //   backgroundColor: 'rgba(0,0,0,0.8)',
-    //   borderRadius: 12,
-    //   height: PixelRatio.getPixelSizeForLayoutSize(60),
-    //   width: '100%',
-    //   transform:[{scale}]
-    // },
+    characterRenderWrapper:{
+      alignSelf: 'center',
+      flexDirection: 'row',
+      marginTop: SPACING,
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      borderRadius: 12,
+      height: PixelRatio.getPixelSizeForLayoutSize(60),
+      width: '100%',
+    },
     
     image: {
       borderRadius: AVATAR_SIZE,
