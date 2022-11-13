@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
     modalContainer: {
-        marginTop: '40%',
+        marginTop: '14%',
         borderRadius: 15,
         backgroundColor: '#555555',
         blurRadius: 90,

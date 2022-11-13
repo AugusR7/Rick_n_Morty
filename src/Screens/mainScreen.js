@@ -20,8 +20,6 @@ import FilterScreenRenderer from "../components/Filter/FilterScreenRenderer";
 import styles from "./appStyles";
 import { Header } from "react-native/Libraries/NewAppScreen";
 // Redux imports
-import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "../slices";
 import {useSelector, useDispatch} from 'react-redux';
 import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters } from "../slices/characters";
 import appStyles from "./appStyles";
@@ -55,35 +53,35 @@ export default function mainScreen() {
   const scrollY = React.useRef(new Animated.Value(0)).current;
 
   // // ---------------------------------- Callbacks (handlers) ---------------------------------- //
-  const generateSearchAddress = (filterAttributes) => {
-    var address =
-      "https://rickandmortyapi.com/api/character?" +
-      "name=" +
-      filterAttributes[0] +
-      "&species=" +
-      filterAttributes[1] +
-      "&type=" +
-      filterAttributes[2] +
-      "&status=" +
-      filterAttributes[3] +
-      "&gender=" +
-      filterAttributes[4];
-    console.log("[Address] Generé: " + address);
-    setNextAddress(address);
-    getCharactersFromAPI(address);
-  };
+  // const generateSearchAddress = (filterAttributes) => {
+  //   var address =
+  //     "https://rickandmortyapi.com/api/character?" +
+  //     "name=" +
+  //     filterAttributes[0] +
+  //     "&species=" +
+  //     filterAttributes[1] +
+  //     "&type=" +
+  //     filterAttributes[2] +
+  //     "&status=" +
+  //     filterAttributes[3] +
+  //     "&gender=" +
+  //     filterAttributes[4];
+  //   console.log("[Address] Generé: " + address);
+  //   setNextAddress(address);
+  //   getCharactersFromAPI(address);
+  // };
 
   // // ---------------------------------- Fetch functions ---------------------------------- //
-  const getCharactersFromAPI = (filteredAddress) => {
-    // console.log("[Fetch] Me llamaron con: " + filteredAddress + "\n");
-    // fetch(filteredAddress)
-    //   .then((response) => response.json())
-    //   .then((response) => {
-    //     setCharacters(response.results);
-    //     setNextAddress(response.info.next);
-    //     setLoading(false);
-    //   });
-  };
+  // const getCharactersFromAPI = (filteredAddress) => {
+  //   // console.log("[Fetch] Me llamaron con: " + filteredAddress + "\n");
+  //   // fetch(filteredAddress)
+  //   //   .then((response) => response.json())
+  //   //   .then((response) => {
+  //   //     setCharacters(response.results);
+  //   //     setNextAddress(response.info.next);
+  //   //     setLoading(false);
+  //   //   });
+  // };
 
   const getNewCharactersFromAPI = () => {
     dispatch(fetchNewCharacters());
@@ -167,22 +165,17 @@ export default function mainScreen() {
             opacity,
           }}
         >
-          <Character item = {item}/>
+          <Image style={styles.image} source={{ uri: item.image }} />
+          <View style={styles.starContainer}>
+            {item.fav ? (<Image style={styles.star} source={require("../components/yellow-star.png")} /> ):(null)}
+            {/* <Image style={styles.star} source={require("../components/yellow-star.png")} />  */}
+          </View>
+          <View style={styles.nameContainer}>
+            <Text style={styles.text}>{item.name}</Text>
+          </View>
         </Animated.View>
       </TouchableOpacity>
     );
-  }
-
-  function Character({item}){
-    return (
-      <>
-        <Image style={styles.image} source={{ uri: item.image }} />
-
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>{item.name}</Text>
-        </View>
-      </>
-    )
   }
 
   // ---------------------------------- Navigation Panes ---------------------------------- //
@@ -199,6 +192,7 @@ export default function mainScreen() {
             keyExtractor={(item) => item.id}
             data={characters}
             renderItem={characterRender}
+            onEndReached={getNewCharactersFromAPI}
             contentContainerStyle={{
               padding: SPACING,
               paddingTop: 0,

@@ -44,7 +44,8 @@ export default styles = StyleSheet.create({
     marginRight: SPACING/2,
   },
 
-  textContainer: {
+  nameContainer: {
+    marginRight: '5%',
     alignSelf: 'center',
     borderRadius: 10,
     backgroundColor: 'lightyellow',
@@ -73,4 +74,25 @@ export default styles = StyleSheet.create({
     flex: 1,
   },
 
+  starContainer:{
+    position: 'absolute',
+    marginTop: '2%',
+    marginLeft: '90%',
+  },
+
+  star:{
+    height: 25,
+    width: 25,
+  }
+
+  // image: {
+  //   borderRadius: AVATAR_SIZE,
+  //   height: AVATAR_SIZE,
+  //   width: AVATAR_SIZE,
+  //   alignSelf: 'center',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   marginLeft: SPACING/2,
+  //   marginRight: SPACING/2,
+  // },
 });
