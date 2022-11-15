@@ -4,7 +4,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./src/slices";
-import MainScreen from "./src/Screens/mainScreen";
+import MainScreen from "./src/Screens/MainScreen/MainScreen";
 
 const store = configureStore({ reducer: rootReducer });
 

@@ -14,14 +14,14 @@ import {
 } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import HeaderBar from "../components/HeaderBar/headerBar";
-import CharacterDetails from "../components/CharacterDetails/ModalCharacters";
-import FilterScreenRenderer from "../components/Filter/FilterScreenRenderer";
+import HeaderBar from "../../components/HeaderBar/headerBar";
+import CharacterDetails from "../../components/CharacterDetails/ModalCharacters";
+import FilterScreenRenderer from "../../components/Filter/FilterScreenRenderer";
 import styles from "./appStyles";
 import { Header } from "react-native/Libraries/NewAppScreen";
 // Redux imports
 import {useSelector, useDispatch} from 'react-redux';
-import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters } from "../slices/characters";
+import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters } from "../../slices/characters";
 import appStyles from "./appStyles";
 
 
@@ -52,36 +52,6 @@ export default function mainScreen() {
   const [showFilter, setShowfilter] = useState(false);
   const scrollY = React.useRef(new Animated.Value(0)).current;
 
-  // // ---------------------------------- Callbacks (handlers) ---------------------------------- //
-  // const generateSearchAddress = (filterAttributes) => {
-  //   var address =
-  //     "https://rickandmortyapi.com/api/character?" +
-  //     "name=" +
-  //     filterAttributes[0] +
-  //     "&species=" +
-  //     filterAttributes[1] +
-  //     "&type=" +
-  //     filterAttributes[2] +
-  //     "&status=" +
-  //     filterAttributes[3] +
-  //     "&gender=" +
-  //     filterAttributes[4];
-  //   console.log("[Address] Generé: " + address);
-  //   setNextAddress(address);
-  //   getCharactersFromAPI(address);
-  // };
-
-  // // ---------------------------------- Fetch functions ---------------------------------- //
-  // const getCharactersFromAPI = (filteredAddress) => {
-  //   // console.log("[Fetch] Me llamaron con: " + filteredAddress + "\n");
-  //   // fetch(filteredAddress)
-  //   //   .then((response) => response.json())
-  //   //   .then((response) => {
-  //   //     setCharacters(response.results);
-  //   //     setNextAddress(response.info.next);
-  //   //     setLoading(false);
-  //   //   });
-  // };
 
   const getNewCharactersFromAPI = () => {
     dispatch(fetchNewCharacters());
@@ -127,7 +97,8 @@ export default function mainScreen() {
   // ---------------------------------- Character Render ---------------------------------- //
   function characterRender({ item, index }) {
     const inputRange = [-1, 0, ITEM_SIZE * index, ITEM_SIZE * (index + 2)];
-    
+    // const [characterFavorite, setCharacterFavorite] = useState(false); 
+    // Esto no anda porque no deja que se use un "useState" en una funcion y no se que onda
     const opacityInputRange = [
       -1,
       0,
@@ -167,8 +138,15 @@ export default function mainScreen() {
         >
           <Image style={styles.image} source={{ uri: item.image }} />
           <View style={styles.starContainer}>
-            {item.fav ? (<Image style={styles.star} source={require("../components/yellow-star.png")} /> ):(null)}
-            {/* <Image style={styles.star} source={require("../components/yellow-star.png")} />  */}
+            {/* <TouchableOpacity
+            onPress={(characterFavourite) => {setCharacterFavourite(!characterFavourite)}}> */}
+            {/* {characterFavourite ? (
+              <Image style={styles.star} source={require("../../components/yellow-star.png")} /> 
+              ):(
+              <Image style={styles.star} source={require("../../components/white-star.png")} />
+              )} */}
+
+            {/* </TouchableOpacity> */}
           </View>
           <View style={styles.nameContainer}>
             <Text style={styles.text}>{item.name}</Text>

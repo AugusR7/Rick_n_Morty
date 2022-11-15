@@ -12,7 +12,7 @@ import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 
 
-export default function ModalFilter({ closeHandler, acceptHandler }) {
+export default function FilterScreen({ closeHandler, acceptHandler }) {
   const [statusSelection, setStatusSelection] = useState("");
   const [genderSelection, setGenderSelection] = useState("");
   const [nameFilter, setNameFilter] = useState("");
