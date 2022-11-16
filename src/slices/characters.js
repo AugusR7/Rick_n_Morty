@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { onValue, set, getDatabase, update, ref } from "firebase/database";
+import database from "../../config";
+
+
 
 export const initialState = {
     characters: [],
+    favouriteCharacter: [],
     loading: true,
     hasErrors: false,
     nextAddress: "https://rickandmortyapi.com/api/character",
@@ -15,11 +20,10 @@ const charactersSlice = createSlice({
             state.loading = true;
         },
         getCharactersSuccess: (state, { payload }) => {
-            state.characters = payload.results; // O bien state.characters = [...state.characters, ...payload]
+            state.characters = payload.results;
             state.loading = false;
             state.hasErrors = false;
             state.nextAddress = payload.info.next;
-            // console.log(payload.info.next);
         },
         getCharactersFailure: (state) => {
             state.loading = false;
@@ -30,8 +34,10 @@ const charactersSlice = createSlice({
             state.loading = false;
             state.hasErrors = false;
             state.nextAddress = payload.info.next;
-            // console.log(state.characters);
         },
+        saveFavouriteCharacter: (state, { payload }) => {
+            state.favouriteCharacter = payload;
+        }
     },
 });
 
@@ -39,7 +45,7 @@ export default charactersSlice.reducer;
 
 export const charactersSelector = (state) => state.characters;
 
-export const { getCharacters, getCharactersSuccess, getCharactersFailure, getNewCharactersSuccess} = charactersSlice.actions;
+export const { getCharacters, getCharactersSuccess, getCharactersFailure, getNewCharactersSuccess, saveFavouriteCharacter} = charactersSlice.actions;
 
 export function fetchInitialCharacters() {
     return async (dispatch) => {
@@ -100,4 +106,33 @@ export function fetchFilteredCharacters(filterAttributes) {
             dispatch(getCharactersFailure());
         }
     };
+}
+
+export function writeFavouriteCharacter(character) {
+    return async (dispatch, getState) => {
+        
+        // console.log(character);
+        dispatch(saveFavouriteCharacter(character));
+        
+        try{
+
+            const db = getDatabase();
+            const reference = ref(db, 'characterID/'+character.id);
+            set(ref(db, reference, {
+                character: "Goku",
+            // characterName: character.name,
+            // characterImage: character.image,
+            // characterStatus: character.status,
+            // characterSpecies: character.species,
+            // characterGender: character.gender,
+            // characterType: character.type,
+            // characterOrigin: character.origin,
+            // characterLocation: character.location,
+            }));
+        } catch(error) {
+            dispatch(getCharactersFailure());
+        }
+
+
+    }
 }

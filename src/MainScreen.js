@@ -14,15 +14,16 @@ import {
 } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import HeaderBar from "../../components/HeaderBar/headerBar";
-import CharacterDetails from "../../components/CharacterDetails/ModalCharacters";
-import FilterScreenRenderer from "../../components/Filter/FilterScreenRenderer";
+import HeaderBar from "./components/HeaderBar/headerBar";
+import CharacterDetails from "./components/CharacterDetails/ModalCharacters";
+import FilterScreenRenderer from "./components/Filter/FilterScreenRenderer";
 import styles from "./appStyles";
-import { Header } from "react-native/Libraries/NewAppScreen";
+// import { Header } from "react-native/Libraries/NewAppScreen";
 // Redux imports
 import {useSelector, useDispatch} from 'react-redux';
-import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters } from "../../slices/characters";
-import appStyles from "./appStyles";
+import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters, writeFavouriteCharacter } from "./slices/characters";
+
+
 
 
 const AVATAR_SIZE = 150;
@@ -77,12 +78,13 @@ export default function mainScreen() {
   const pressHandler = (character) => {
     setShowModal(true);
     setCharacterModal(character);
+    dispatch(writeFavouriteCharacter(character));
   };
   const acceptHandler = (filterAttributes) => {
     setShowModal(false);
     setShowfilter(false);
     setCharacterModal({});
-    dispatch(fetchFilteredCharacters(filterAttributes));
+    fetchFilteredCharacters(filterAttributes);
     // generateSearchAddress(filterAttributes);
   };
   const closeHandler = () => {
@@ -205,7 +207,23 @@ export default function mainScreen() {
     return (
       <SafeAreaView style={styles.SAVcontainer}>
         <HeaderBar filterEnabler={filterEnabler} closeHandler={closeHandler} />
-        <FavoritesScreenRenderer acceptHandler={acceptHandler} closeHandler={closeHandler} />
+        <Animated.FlatList
+            style={styles.flatlistStyle}
+            keyExtractor={(item) => item.id}
+            data={characters}
+            // data={characters.filter((character) => character.favorite)}
+            // data = {recolectados desde la base de favoritos}
+            renderItem={characterRender}
+            // onEndReached={getNewCharactersFromAPI}
+            contentContainerStyle={{
+              padding: SPACING,
+              paddingTop: 0,
+            }}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true }
+            )}
+          />
       </SafeAreaView>
     );
   }
