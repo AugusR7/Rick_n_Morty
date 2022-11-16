@@ -6,38 +6,52 @@ import {
   View,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import styles from "./styles";
 import {useSelector, useDispatch} from 'react-redux';
-import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters, writeFavouriteCharacter, removeFavouriteCharacter, addFavouriteCharacter, addNewFavouriteCharacter, removeAFavouriteCharacter, addCommentToCharacter } from "../../slices/characters";
+import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters, writeFavouriteCharacter, removeFavouriteCharacter, addFavouriteCharacter, addNewFavouriteCharacter, removeAFavouriteCharacter, addCommentToCharacter, getFavouriteCharacter } from "../../slices/characters";
 
 export default function CharacterDetails({ character, closeHandler }) {
   const dispatch = useDispatch();
   const { characters, favouriteCharacters, favouriteCharactersId, loading, hasErrors } = useSelector(charactersSelector);
   const [comment, setComment] = useState(character.comment);
+  
+  const favouriteCloseHandler = () => {
+    dispatch(addCommentToCharacter({id: character.id, comment:comment}));
+    closeHandler();
+    console.log("closeHandler-> ")
+    console.log(favouriteCharacters);
+  };
 
-  const commentHandler = (comment)=>{
-    setComment(comment); 
-    character.comment = comment;
-    dispatch(addCommentToCharacter({character}));
-  }
   return (
     <>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.modalContainer}>
-        <View style={styles.modalImageContainer}>
           <Image style={styles.modalImage} source={{ uri: character.image }} />
-        </View>
 
         <View style={styles.closeButtonContainer}>
-          <TouchableOpacity
-            onPress={() => closeHandler()}
-            style={styles.touchableIcon}
-          >
-            <Image
-              style={styles.closeButton}
-              source={require("../close_button_icon.png")}
-            />
-          </TouchableOpacity>
+          {favouriteCharactersId.includes(character.id)? (
+            <TouchableOpacity
+                onPress={() => favouriteCloseHandler()}
+                style={styles.touchableIcon}>
+                <Image
+                  style={styles.closeButton}
+                  source={require("../close_button_icon.png")}
+                />
+              </TouchableOpacity>
+          ):(
+            // <>
+              <TouchableOpacity
+                onPress={() => closeHandler()}
+                style={styles.touchableIcon}>
+                <Image
+                  style={styles.closeButton}
+                  source={require("../close_button_icon.png")}
+                />
+              </TouchableOpacity>
+            // </>
+          )}
         </View>
 
         <Text style={styles.detailedName}>{character.name}</Text>
@@ -168,20 +182,30 @@ export default function CharacterDetails({ character, closeHandler }) {
                   {"Comment: "}{" "}
                 </Text>
                 <View style={styles.textFilterContainer}>
-                  <TextInput
+                  {favouriteCharacters.find((item) => item.id === character.id).comment != "" ? (
+                    <TextInput
                     style={styles.filterTextInput}
-                    placeholder={character.comment}
-                    placeholderTextColor="gray"
+                    placeholder= {favouriteCharacters.find((item) => item.id === character.id).comment}
+                    placeholderTextColor="black"
                     value={comment}
-                    onChangeText={setComment}
-                    onSubmitEditing={() => commentHandler()}
+                    onChangeText={comment => {setComment(comment)}}
                   />
+                  ):(
+                    <TextInput
+                      style={styles.filterTextInput}
+                      placeholder="Comentar algo sobre el personaje:"
+                      placeholderTextColor="black"
+                      value={comment}
+                      onChangeText={comment => {setComment(comment)}}
+                    />
+                  )}
                 </View>
               </View>
             </>
           ) : (null)}
         </ScrollView>
       </View>
+    </KeyboardAvoidingView>
     </>
   );
 }

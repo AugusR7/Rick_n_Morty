@@ -70,7 +70,6 @@ export default function mainScreen() {
   };
 
   const toggleFavouriteHandler = (character) =>{
-    console.log("[@]"+favouriteCharactersId.includes(character.id));
     if(favouriteCharactersId.includes(character.id)){
       dispatch(removeAFavouriteCharacter(character));
       // console.log("Borró..."+character.name);
@@ -206,6 +205,12 @@ export default function mainScreen() {
               { useNativeDriver: true }
             )}
           />
+          <Modal transparent={true} visible={showModal} animationType="slide">
+          <CharacterDetails
+            character={characterModal}
+            closeHandler={closeHandler}
+          />
+        </Modal>
       </SafeAreaView>
     );
   }
@@ -226,7 +231,7 @@ export default function mainScreen() {
               color: "darkgrey",
             },
           }}
-          //useLegacyImplementation={true}
+          useLegacyImplementation={true}
           initialRouteName="HomeScreen"
         >
           <Drawer.Screen

@@ -7,6 +7,7 @@ export default styles = StyleSheet.create({
         backgroundColor: '#555555',
         blurRadius: 90,
         flexShrink: 1,
+        
     },
 
     characterDetailHeader: {
@@ -96,4 +97,22 @@ export default styles = StyleSheet.create({
         color: 'white',
         marginTop: 10,
     },
+
+    filterTextInput: {
+        backgroundColor:'white',
+        height: 50,
+        borderRadius: 10,
+        marginRight: '5%',
+        textAlign: 'center',
+
+        // height: '100%',
+        // backgroundColor: 'red',
+        // borderRadius: 5,
+        // backgroundColor: 'white',
+        // color: 'black',
+        // textAlign: 'center',
+        // // fontSize: 25,
+        // fontSize: PixelRatio.getPixelSizeForLayoutSize(9),
+        // fontWeight: 'bold',
+    }
 });

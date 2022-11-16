@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { onValue, set, update, ref, get, child } from "firebase/database";
 import { database } from "../../config";
-
-
-
+ 
 export const initialState = {
     characters: [],
     favouriteCharacters: [],
@@ -21,7 +19,10 @@ const charactersSlice = createSlice({
             state.loading = true;
         },
         getCharactersSuccess: (state, { payload }) => {
-            state.characters = payload.results;
+            payload.results.forEach((character) => {
+                const newCharacter = {...character, comment: ""};
+                state.characters.push(newCharacter);
+            });
             state.loading = false;
             state.hasErrors = false;
             state.nextAddress = payload.info.next;
@@ -38,7 +39,6 @@ const charactersSlice = createSlice({
         },
         addFavouriteCharacter: (state, { payload }) => {
             if(!state.favouriteCharactersId.includes(payload.id)){
-                payload.comment = "";
                 state.favouriteCharactersId.push(payload.id);
                 state.favouriteCharacters.push(payload);
             };
@@ -48,14 +48,12 @@ const charactersSlice = createSlice({
             state.favouriteCharacters = state.favouriteCharacters.filter((character) => character.id !== payload.id);
         },
         addCommentToCharacter: (state, { payload }) => {
-            // console.log(payload.comment);
-            state.favouriteCharacters = state.favouriteCharacters.map((character) => {
-                if(character.id === payload.id){
+            state.favouriteCharacters.forEach((character)=>{
+                if(character.id == payload.id){
                     character.comment = payload.comment;
                 }
-                return character;
             });
-        }
+        },
     },
 });
 
@@ -63,7 +61,7 @@ export default charactersSlice.reducer;
 
 export const charactersSelector = (state) => state.characters;
 
-export const { getCharacters, getCharactersSuccess, getCharactersFailure, getNewCharactersSuccess, addFavouriteCharacter, removeFavouriteCharacter, addCommentToCharacter} = charactersSlice.actions;
+export const { getCharacters, getCharactersSuccess, getCharactersFailure, getNewCharactersSuccess, addFavouriteCharacter, removeFavouriteCharacter, addCommentToCharacter, getFavouriteCharacter} = charactersSlice.actions;
 
 
 export function fetchInitialCharacters() {
@@ -81,7 +79,7 @@ export function fetchInitialCharacters() {
             // console.log("reference: "+reference);
             get(child(reference, "caracterID/"))
             .then( (snapshot) => {
-                console.log(snapshot);
+                // console.log(snapshot);
                 snapshot.forEach((character) => {
                     addFavouriteCharacter(character);
                 });
@@ -141,10 +139,8 @@ export function fetchFilteredCharacters(filterAttributes) {
 export function addNewFavouriteCharacter(character) {
     return async (dispatch, getState) => {
         dispatch(addFavouriteCharacter(character));
-        // console.log(getState().characters.favouriteCharactersId);
         try{
             const reference = ref(database, 'characterID/'+character.id);
-            // console.log(reference);
             set(reference, {
                 characterName: character.name,
                 characterImage: character.image,
