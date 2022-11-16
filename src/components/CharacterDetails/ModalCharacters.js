@@ -25,9 +25,8 @@ export default function CharacterDetails({ character, closeHandler }) {
   };
 
   return (
-    <>
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.modalContainer}>
+      <ScrollView style={styles.modalContainer}>
           <Image style={styles.modalImage} source={{ uri: character.image }} />
 
         <View style={styles.closeButtonContainer}>
@@ -58,7 +57,6 @@ export default function CharacterDetails({ character, closeHandler }) {
 
 
         <View style={styles.modalSeparator} />
-        <ScrollView>
           <View style={styles.characterDetailContainer}>
             <Text style={styles.characterDetailHeader}>{"Status: "} </Text>
 
@@ -204,8 +202,6 @@ export default function CharacterDetails({ character, closeHandler }) {
             </>
           ) : (null)}
         </ScrollView>
-      </View>
     </KeyboardAvoidingView>
-    </>
   );
 }
