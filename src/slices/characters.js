@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { onValue, set, getDatabase, update, ref } from "firebase/database";
-import database from "../../config";
+import { onValue, set, update, ref, get, child } from "firebase/database";
+import { database } from "../../config";
 
 
 
 export const initialState = {
     characters: [],
-    favouriteCharacter: [],
+    favouriteCharacters: [],
+    favouriteCharactersId: [],
     loading: true,
     hasErrors: false,
     nextAddress: "https://rickandmortyapi.com/api/character",
@@ -35,8 +36,15 @@ const charactersSlice = createSlice({
             state.hasErrors = false;
             state.nextAddress = payload.info.next;
         },
-        saveFavouriteCharacter: (state, { payload }) => {
-            state.favouriteCharacter = payload;
+        addFavouriteCharacter: (state, { payload }) => {
+            if(!state.favouriteCharactersId.includes(payload.id)){
+                state.favouriteCharactersId.push(payload.id);
+                state.favouriteCharacters.push(payload);
+            };
+        },
+        removeFavouriteCharacter: (state, { payload }) => {
+            state.favouriteCharactersId = state.favouriteCharactersId.filter((id) => id !== payload.id);
+            state.favouriteCharacters = state.favouriteCharacters.filter((character) => character.id !== payload.id);
         }
     },
 });
@@ -45,7 +53,7 @@ export default charactersSlice.reducer;
 
 export const charactersSelector = (state) => state.characters;
 
-export const { getCharacters, getCharactersSuccess, getCharactersFailure, getNewCharactersSuccess, saveFavouriteCharacter} = charactersSlice.actions;
+export const { getCharacters, getCharactersSuccess, getCharactersFailure, getNewCharactersSuccess, addFavouriteCharacter, removeFavouriteCharacter} = charactersSlice.actions;
 
 export function fetchInitialCharacters() {
     return async (dispatch) => {
@@ -57,6 +65,10 @@ export function fetchInitialCharacters() {
             const data = await response.json();
 
             dispatch(getCharactersSuccess(data));
+
+            // const reference = ref(database, "caracterID/");
+            // get de los datos de la base de datos
+
         } catch (error) {
             dispatch(getCharactersFailure());
         }
@@ -108,31 +120,38 @@ export function fetchFilteredCharacters(filterAttributes) {
     };
 }
 
-export function writeFavouriteCharacter(character) {
+export function addNewFavouriteCharacter(character) {
     return async (dispatch, getState) => {
-        
-        // console.log(character);
-        dispatch(saveFavouriteCharacter(character));
-        
+        dispatch(addFavouriteCharacter(character));
+        // console.log(getState().characters.favouriteCharactersId);
         try{
-
-            const db = getDatabase();
-            const reference = ref(db, 'characterID/'+character.id);
-            set(ref(db, reference, {
-                character: "Goku",
-            // characterName: character.name,
-            // characterImage: character.image,
-            // characterStatus: character.status,
-            // characterSpecies: character.species,
-            // characterGender: character.gender,
-            // characterType: character.type,
-            // characterOrigin: character.origin,
-            // characterLocation: character.location,
-            }));
+            const reference = ref(database, 'characterID/'+character.id);
+            // console.log(reference);
+            set(reference, {
+                characterName: character.name,
+                characterImage: character.image,
+                characterStatus: character.status,
+                characterSpecies: character.species,
+                characterGender: character.gender,
+                characterType: character.type,
+                characterOrigin: character.origin,
+                characterLocation: character.location,
+            });
         } catch(error) {
             dispatch(getCharactersFailure());
         }
+    }
+}
 
+export function removeAFavouriteCharacter(character){
+    return async (dispatch, getState) => {
+        dispatch(removeFavouriteCharacter(character));
 
+        try{
+            const reference = ref(database, 'characterID/'+character.id);
+            set(reference, null);
+        } catch(error) {
+            dispatch(getCharactersFailure());
+        }
     }
 }

@@ -21,7 +21,7 @@ import styles from "./appStyles";
 // import { Header } from "react-native/Libraries/NewAppScreen";
 // Redux imports
 import {useSelector, useDispatch} from 'react-redux';
-import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters, writeFavouriteCharacter } from "./slices/characters";
+import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters, writeFavouriteCharacter, removeFavouriteCharacter, addFavouriteCharacter, addNewFavouriteCharacter, removeAFavouriteCharacter } from "./slices/characters";
 
 
 
@@ -35,7 +35,7 @@ const Drawer = createDrawerNavigator();
 export default function mainScreen() {
     // ---------------------------------- Redux declarations ---------------------------------- //
   const dispatch = useDispatch();
-  const { characters, loading, hasErrors } = useSelector(charactersSelector);
+  const { characters, favouriteCharacters, favouriteCharactersId, loading, hasErrors } = useSelector(charactersSelector);
 
   useEffect(() => {
     dispatch(fetchInitialCharacters());
@@ -43,58 +43,43 @@ export default function mainScreen() {
 
 
   // ---------------------------------- State declarations ---------------------------------- //
-  // const [characters, setCharacters] = useState();
-  // const [loading, setLoading] = useState(true);
-  const [nextAddress, setNextAddress] = useState(
-    "https://rickandmortyapi.com/api/character"
-  );
   const [showModal, setShowModal] = useState(false);
   const [characterModal, setCharacterModal] = useState({});
-  const [showFilter, setShowfilter] = useState(false);
   const scrollY = React.useRef(new Animated.Value(0)).current;
 
 
   const getNewCharactersFromAPI = () => {
     dispatch(fetchNewCharacters());
-    // fetch(nextAddress)
-    //   .then((response) => response.json())
-    //   .then((response) => {
-    //     setCharacters(() => {
-    //       let prevCharacters = characters;
-    //       let newCharacters = response.results;
-    //       let result = [...prevCharacters, ...newCharacters];
-    //       return result;
-    //     });
-    //     setNextAddress(response.info.next);
-    //     setLoading(false);
-    //   });
   };
-
-  // useEffect(() => {
-  //   getCharactersFromAPI(nextAddress);
-  // }, []);
 
   // ---------------------------------- Press handlers ---------------------------------- //
   const pressHandler = (character) => {
     setShowModal(true);
     setCharacterModal(character);
-    dispatch(writeFavouriteCharacter(character));
+    dispatch(addNewFavouriteCharacter(character));
   };
   const acceptHandler = (filterAttributes) => {
     setShowModal(false);
-    setShowfilter(false);
     setCharacterModal({});
-    fetchFilteredCharacters(filterAttributes);
+    dispatch(fetchFilteredCharacters(filterAttributes));
     // generateSearchAddress(filterAttributes);
   };
   const closeHandler = () => {
     setShowModal(false);
-    setShowfilter(false);
     setCharacterModal({});
   };
-  const filterEnabler = () => {
-    setShowfilter(true);
+
+  const toggleFavouriteHandler = (character) =>{
+    console.log("[@]"+favouriteCharactersId.includes(character.id));
+    if(favouriteCharactersId.includes(character.id)){
+      dispatch(removeAFavouriteCharacter(character));
+      console.log("Borró..."+character.name);
+    } else {
+      dispatch(addNewFavouriteCharacter(character));
+      console.log("Agrego..."+character.name);
+    }
   };
+
 
   // ---------------------------------- Character Render ---------------------------------- //
   function characterRender({ item, index }) {
@@ -140,15 +125,15 @@ export default function mainScreen() {
         >
           <Image style={styles.image} source={{ uri: item.image }} />
           <View style={styles.starContainer}>
-            {/* <TouchableOpacity
-            onPress={(characterFavourite) => {setCharacterFavourite(!characterFavourite)}}> */}
-            {/* {characterFavourite ? (
-              <Image style={styles.star} source={require("../../components/yellow-star.png")} /> 
+            <TouchableOpacity
+            onPress={() => {toggleFavouriteHandler(item)}}>
+            { favouriteCharactersId.includes(item.id)? (
+              <Image style={styles.star} source={require("./components/yellow-star.png")} /> 
               ):(
-              <Image style={styles.star} source={require("../../components/white-star.png")} />
-              )} */}
+              <Image style={styles.star} source={require("./components/white-star.png")} />
+              )}
 
-            {/* </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
           <View style={styles.nameContainer}>
             <Text style={styles.text}>{item.name}</Text>
@@ -162,7 +147,7 @@ export default function mainScreen() {
   function HomeScreen({ navigation }) {
     return (
       <SafeAreaView style={styles.SAVcontainer}>
-        <HeaderBar filterEnabler={filterEnabler} closeHandler={closeHandler} />
+        <HeaderBar closeHandler={closeHandler} />
       
         {loading ? (
           <ActivityIndicator size="large" animating={loading} />
@@ -197,7 +182,7 @@ export default function mainScreen() {
   function FilterScreen({ navigation }) {
     return (
       <SafeAreaView style={styles.SAVcontainer}>
-        <HeaderBar filterEnabler={filterEnabler} closeHandler={closeHandler} />
+        <HeaderBar closeHandler={closeHandler} />
         <FilterScreenRenderer acceptHandler={acceptHandler} closeHandler={closeHandler} />
       </SafeAreaView>
     );
@@ -206,15 +191,12 @@ export default function mainScreen() {
   function FavoritesScreen({ navigation }) {
     return (
       <SafeAreaView style={styles.SAVcontainer}>
-        <HeaderBar filterEnabler={filterEnabler} closeHandler={closeHandler} />
+        <HeaderBar closeHandler={closeHandler} />
         <Animated.FlatList
             style={styles.flatlistStyle}
             keyExtractor={(item) => item.id}
-            data={characters}
-            // data={characters.filter((character) => character.favorite)}
-            // data = {recolectados desde la base de favoritos}
+            data={favouriteCharacters}
             renderItem={characterRender}
-            // onEndReached={getNewCharactersFromAPI}
             contentContainerStyle={{
               padding: SPACING,
               paddingTop: 0,

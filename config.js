@@ -1,12 +1,10 @@
-// Import the functions you need from the SDKs you need
-import * as firebase from "firebase/app";
+import { initializeApp } from "firebase/app";  
 import { getDatabase } from "firebase/database";
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyAAeXwMdSANjYEqPJ8mC4SXAWV7NjvSR6Q",
   authDomain: "ryck-n-morty.firebaseapp.com",
-  databaseURL: "https://ryck-n-morty-default-rtdb.firebaseio.com",
+  databaseURL: "https://ryck-n-morty-default-rtdb.firebaseio.com/",
   projectId: "ryck-n-morty",
   storageBucket: "ryck-n-morty.appspot.com",
   messagingSenderId: "244917769900",
@@ -14,6 +12,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-let app = firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const database =  getDatabase(app);
 
-export default app;
+export { database };
