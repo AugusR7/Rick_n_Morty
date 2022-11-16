@@ -38,6 +38,7 @@ const charactersSlice = createSlice({
         },
         addFavouriteCharacter: (state, { payload }) => {
             if(!state.favouriteCharactersId.includes(payload.id)){
+                payload.comment = "";
                 state.favouriteCharactersId.push(payload.id);
                 state.favouriteCharacters.push(payload);
             };
@@ -45,6 +46,15 @@ const charactersSlice = createSlice({
         removeFavouriteCharacter: (state, { payload }) => {
             state.favouriteCharactersId = state.favouriteCharactersId.filter((id) => id !== payload.id);
             state.favouriteCharacters = state.favouriteCharacters.filter((character) => character.id !== payload.id);
+        },
+        addCommentToCharacter: (state, { payload }) => {
+            // console.log(payload.comment);
+            state.favouriteCharacters = state.favouriteCharacters.map((character) => {
+                if(character.id === payload.id){
+                    character.comment = payload.comment;
+                }
+                return character;
+            });
         }
     },
 });
@@ -53,7 +63,8 @@ export default charactersSlice.reducer;
 
 export const charactersSelector = (state) => state.characters;
 
-export const { getCharacters, getCharactersSuccess, getCharactersFailure, getNewCharactersSuccess, addFavouriteCharacter, removeFavouriteCharacter} = charactersSlice.actions;
+export const { getCharacters, getCharactersSuccess, getCharactersFailure, getNewCharactersSuccess, addFavouriteCharacter, removeFavouriteCharacter, addCommentToCharacter} = charactersSlice.actions;
+
 
 export function fetchInitialCharacters() {
     return async (dispatch) => {
@@ -66,8 +77,15 @@ export function fetchInitialCharacters() {
 
             dispatch(getCharactersSuccess(data));
 
-            // const reference = ref(database, "caracterID/");
-            // get de los datos de la base de datos
+            const reference = ref(database, "caracterID");
+            // console.log("reference: "+reference);
+            get(child(reference, "caracterID/"))
+            .then( (snapshot) => {
+                console.log(snapshot);
+                snapshot.forEach((character) => {
+                    addFavouriteCharacter(character);
+                });
+            });
 
         } catch (error) {
             dispatch(getCharactersFailure());

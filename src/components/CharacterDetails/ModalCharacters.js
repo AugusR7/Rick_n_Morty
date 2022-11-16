@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   Text,
+  TextInput,
   View,
   Image,
   TouchableOpacity,
 } from "react-native";
 import styles from "./styles";
+import {useSelector, useDispatch} from 'react-redux';
+import { fetchInitialCharacters, charactersSelector, fetchNewCharacters, fetchFilteredCharacters, writeFavouriteCharacter, removeFavouriteCharacter, addFavouriteCharacter, addNewFavouriteCharacter, removeAFavouriteCharacter, addCommentToCharacter } from "../../slices/characters";
 
 export default function CharacterDetails({ character, closeHandler }) {
+  const dispatch = useDispatch();
+  const { characters, favouriteCharacters, favouriteCharactersId, loading, hasErrors } = useSelector(charactersSelector);
+  const [comment, setComment] = useState(character.comment);
+
+  const commentHandler = (comment)=>{
+    setComment(comment); 
+    character.comment = comment;
+    dispatch(addCommentToCharacter({character}));
+  }
   return (
     <>
       <View style={styles.modalContainer}>
@@ -149,6 +161,25 @@ export default function CharacterDetails({ character, closeHandler }) {
               </Text>
             </View>
           </View>
+          {favouriteCharactersId.includes(character.id) ? (
+            <>
+              <View style={styles.characterDetailContainerTruncated}>
+              <Text style={styles.characterDetailHeader}>
+                  {"Comment: "}{" "}
+                </Text>
+                <View style={styles.textFilterContainer}>
+                  <TextInput
+                    style={styles.filterTextInput}
+                    placeholder={character.comment}
+                    placeholderTextColor="gray"
+                    value={comment}
+                    onChangeText={setComment}
+                    onSubmitEditing={() => commentHandler()}
+                  />
+                </View>
+              </View>
+            </>
+          ) : (null)}
         </ScrollView>
       </View>
     </>

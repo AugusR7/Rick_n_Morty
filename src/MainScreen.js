@@ -56,7 +56,7 @@ export default function mainScreen() {
   const pressHandler = (character) => {
     setShowModal(true);
     setCharacterModal(character);
-    dispatch(addNewFavouriteCharacter(character));
+    // dispatch(addNewFavouriteCharacter(character));
   };
   const acceptHandler = (filterAttributes) => {
     setShowModal(false);
@@ -73,10 +73,10 @@ export default function mainScreen() {
     console.log("[@]"+favouriteCharactersId.includes(character.id));
     if(favouriteCharactersId.includes(character.id)){
       dispatch(removeAFavouriteCharacter(character));
-      console.log("Borró..."+character.name);
+      // console.log("Borró..."+character.name);
     } else {
       dispatch(addNewFavouriteCharacter(character));
-      console.log("Agrego..."+character.name);
+      // console.log("Agrego..."+character.name);
     }
   };
 
