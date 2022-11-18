@@ -9,11 +9,10 @@ import MainScreen from "./src/MainScreen";
 const store = configureStore({ reducer: rootReducer });
 
 export default function App() {
-
   // ---------------------------------- Screen Render ---------------------------------- //
   return (
     <Provider store={store}>
-      <MainScreen/>
+      <MainScreen />
     </Provider>
   );
 }

@@ -1,44 +1,44 @@
 import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
-    header: {
-        flexDirection: 'row',
-        alignSelf: 'flex-start',
-        backgroundColor: 'black',
-        width: '100%',
-        height: 80,
-    },
+  header: {
+    flexDirection: "row",
+    alignSelf: "flex-start",
+    backgroundColor: "black",
+    width: "100%",
+    height: 80,
+  },
 
-    leftIcon: {
-        flex:1,
-        justifyContent: 'center',
-    },
-    
-    centerElement: {
-        flex:4,
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
+  leftIcon: {
+    flex: 1,
+    justifyContent: "center",
+  },
 
-    logo: {
-        alignSelf: 'center',
-        height: '70%',
-        width: '70%',
-    },
+  centerElement: {
+    flex: 4,
+    justifyContent: "center",
+    alignContent: "center",
+  },
 
-    rightIcon: {
-       flex: 1,
-       justifyContent: 'center',
-    },
-    
-    filterIcon: {
-        alignSelf: 'center',
-        height: '80%',
-        width: '60%',
-        opacity: 0.5,
-    },
+  logo: {
+    alignSelf: "center",
+    height: "70%",
+    width: "70%",
+  },
 
-    touchableIcon: {
-        justifyContent: 'center'
-    },
+  rightIcon: {
+    flex: 1,
+    justifyContent: "center",
+  },
+
+  filterIcon: {
+    alignSelf: "center",
+    height: "80%",
+    width: "60%",
+    opacity: 0.5,
+  },
+
+  touchableIcon: {
+    justifyContent: "center",
+  },
 });

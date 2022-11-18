@@ -31,6 +31,7 @@ import {
   addFavouriteCharacter,
   addNewFavouriteCharacter,
   removeAFavouriteCharacter,
+  fetchFavouriteCharacters,
 } from "./slices/characters";
 
 const AVATAR_SIZE = 150;
@@ -51,6 +52,7 @@ export default function mainScreen() {
   } = useSelector(charactersSelector);
 
   useEffect(() => {
+    dispatch(fetchFavouriteCharacters());
     dispatch(fetchInitialCharacters());
   }, [dispatch]);
 
@@ -67,13 +69,11 @@ export default function mainScreen() {
   const pressHandler = (character) => {
     setShowModal(true);
     setCharacterModal(character);
-    // dispatch(addNewFavouriteCharacter(character));
   };
   const acceptHandler = (filterAttributes) => {
     setShowModal(false);
     setCharacterModal({});
     dispatch(fetchFilteredCharacters(filterAttributes));
-    // generateSearchAddress(filterAttributes);
   };
   const closeHandler = () => {
     setShowModal(false);
@@ -154,8 +154,17 @@ export default function mainScreen() {
           </View>
           <View style={styles.nameContainer}>
             <Text style={styles.text}>{item.name}</Text>
-            <Text style={styles.text}>{item.species}</Text>
-            <Text style={styles.text}>{item.type}</Text>
+            <View style={styles.modalSeparator} />
+            {item.type == "" ? (
+              <View style={styles.detailsContainer}>
+                <Text style={styles.detailedText}>{item.species}</Text>
+              </View>
+            ) : (
+              <View style={styles.veryDetailedContainer}>
+                <Text style={styles.detailedText}>{item.species}</Text>
+                <Text style={styles.detailedText}>{item.type}</Text>
+              </View>
+            )}
           </View>
         </Animated.View>
       </TouchableOpacity>
