@@ -18,7 +18,6 @@ import HeaderBar from "./components/HeaderBar/headerBar";
 import CharacterDetails from "./components/CharacterDetails/ModalCharacters";
 import FilterScreenRenderer from "./components/Filter/FilterScreenRenderer";
 import styles from "./appStyles";
-// import { Header } from "react-native/Libraries/NewAppScreen";
 // Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -26,9 +25,6 @@ import {
   charactersSelector,
   fetchNewCharacters,
   fetchFilteredCharacters,
-  writeFavouriteCharacter,
-  removeFavouriteCharacter,
-  addFavouriteCharacter,
   addNewFavouriteCharacter,
   removeAFavouriteCharacter,
   fetchFavouriteCharacters,
@@ -52,8 +48,8 @@ export default function mainScreen() {
   } = useSelector(charactersSelector);
 
   useEffect(() => {
-    dispatch(fetchFavouriteCharacters());
     dispatch(fetchInitialCharacters());
+    dispatch(fetchFavouriteCharacters());
   }, [dispatch]);
 
   // ---------------------------------- State declarations ---------------------------------- //
@@ -83,18 +79,14 @@ export default function mainScreen() {
   const toggleFavouriteHandler = (character) => {
     if (favouriteCharactersId.includes(character.id)) {
       dispatch(removeAFavouriteCharacter(character));
-      // console.log("Borró..."+character.name);
     } else {
       dispatch(addNewFavouriteCharacter(character));
-      // console.log("Agrego..."+character.name);
     }
   };
 
   // ---------------------------------- Character Render ---------------------------------- //
   function characterRender({ item, index }) {
     const inputRange = [-1, 0, ITEM_SIZE * index, ITEM_SIZE * (index + 2)];
-    // const [characterFavorite, setCharacterFavorite] = useState(false);
-    // Esto no anda porque no deja que se use un "useState" en una funcion y no se que onda
     const opacityInputRange = [
       -1,
       0,

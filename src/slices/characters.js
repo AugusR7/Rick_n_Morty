@@ -50,9 +50,16 @@ const charactersSlice = createSlice({
       if (!state.favouriteCharactersId.includes(payload.id)) {
         state.favouriteCharactersId.push(payload.id);
         state.favouriteCharacters.push(payload);
+        state.characters = state.characters.filter(
+          (id) => id !== payload.id
+        );
+        state.characters = state.characters.filter(
+          (character) => character.id !== payload.id
+        );
       }
     },
     removeFavouriteCharacter: (state, { payload }) => {
+      state.characters= [payload, ...state.characters];
       state.favouriteCharactersId = state.favouriteCharactersId.filter(
         (id) => id !== payload.id
       );
@@ -60,6 +67,7 @@ const charactersSlice = createSlice({
         (character) => character.id !== payload.id
       );
     },
+
     addCommentToCharacter: (state, { payload }) => {
       state.favouriteCharacters.forEach((character) => {
         if (character.id == payload.id) {
@@ -105,11 +113,7 @@ export function fetchFavouriteCharacters() {
       const reference = ref(getDatabase());
 
       get(child(reference, "characterID/")).then((snapshot) => {
-        // console.log(snapshot); 
         snapshot.forEach((item) => {
-          // console.log(item);
-          // {id: item.id}
-          // console.log(item.val());
           dispatch(addFavouriteCharacter(item.val()));
         });
       });
