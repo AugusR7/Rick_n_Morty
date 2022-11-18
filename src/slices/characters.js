@@ -47,8 +47,10 @@ const charactersSlice = createSlice({
       state.nextAddress = payload.info.next;
     },
     addFavouriteCharacter: (state, { payload }) => {
-      state.favouriteCharactersId.push(payload.id);
-      state.favouriteCharacters.push(payload);
+      if (!state.favouriteCharactersId.includes(payload.id)) {
+        state.favouriteCharactersId.push(payload.id);
+        state.favouriteCharacters.push(payload);
+      }
     },
     removeFavouriteCharacter: (state, { payload }) => {
       state.favouriteCharactersId = state.favouriteCharactersId.filter(
@@ -91,35 +93,25 @@ export function fetchInitialCharacters() {
       const response = await fetch("https://rickandmortyapi.com/api/character");
       const data = await response.json();
       dispatch(getCharactersSuccess(data));
-
-      // const reference = ref(getDatabase());
-
-      // get(child(reference, "characterID/")).then((snapshot) => {
-      //   snapshot.forEach((character) => {
-      //     addFavouriteCharacter(character);
-      //   });
-      // });
     } catch (error) {
       dispatch(getCharactersFailure());
     }
-    // console.log(snapshot);
   };
 }
 
 export function fetchFavouriteCharacters() {
   return async (dispatch) => {
-    dispatch(getCharacters());
-
     try {
       const reference = ref(getDatabase());
 
       get(child(reference, "characterID/")).then((snapshot) => {
-        snapshot.forEach((character) => {
-          addFavouriteCharacter(character);
+        // console.log(snapshot); 
+        snapshot.forEach((item) => {
+          // console.log(item);
+          // {id: item.id}
+          // console.log(item.val());
+          dispatch(addFavouriteCharacter(item.val()));
         });
-      });
-      state.favouriteCharacters.forEach((item) => {
-        console.log(item);
       });
     } catch (error) {
       dispatch(getCharactersFailure());
@@ -177,14 +169,16 @@ export function addNewFavouriteCharacter(character) {
     try {
       const reference = ref(database, "characterID/" + character.id);
       set(reference, {
-        characterName: character.name,
-        characterImage: character.image,
-        characterStatus: character.status,
-        characterSpecies: character.species,
-        characterGender: character.gender,
-        characterType: character.type,
-        characterOrigin: character.origin,
-        characterLocation: character.location,
+        id: character.id,
+        name: character.name,
+        image: character.image,
+        status: character.status,
+        species: character.species,
+        gender: character.gender,
+        type: character.type,
+        origin: character.origin,
+        location: character.location,
+        comment: "",
       });
       dispatch(addFavouriteCharacter(character));
     } catch (error) {
@@ -194,7 +188,7 @@ export function addNewFavouriteCharacter(character) {
 }
 
 export function removeAFavouriteCharacter(character) {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     dispatch(removeFavouriteCharacter(character));
 
     try {
@@ -202,6 +196,20 @@ export function removeAFavouriteCharacter(character) {
       set(reference, null);
     } catch (error) {
       dispatch(getCharactersFailure());
+    }
+  };
+}
+
+export function applyCommentToCharacter(item) {
+  return async (dispatch) => {
+    dispatch(addCommentToCharacter(item));
+    try {
+      const reference = ref(database, "characterID/" + item.id);
+      update(reference, {
+        comment: item.comment,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 }
