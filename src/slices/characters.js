@@ -29,8 +29,10 @@ const charactersSlice = createSlice({
     getCharactersSuccess: (state, { payload }) => {
       state.characters = [];
       payload.results.forEach((character) => {
-        const newCharacter = { ...character, comment: "" };
-        state.characters.push(newCharacter);
+        if (!state.favouriteCharactersId.includes(character.id)) {
+          const newCharacter = { ...character, comment: "" };
+          state.characters.push(newCharacter);
+        }
       });
       state.loading = false;
       state.hasErrors = false;
@@ -50,16 +52,14 @@ const charactersSlice = createSlice({
       if (!state.favouriteCharactersId.includes(payload.id)) {
         state.favouriteCharactersId.push(payload.id);
         state.favouriteCharacters.push(payload);
-        state.characters = state.characters.filter(
-          (id) => id !== payload.id
-        );
+        state.characters = state.characters.filter((id) => id !== payload.id);
         state.characters = state.characters.filter(
           (character) => character.id !== payload.id
         );
       }
     },
     removeFavouriteCharacter: (state, { payload }) => {
-      state.characters= [payload, ...state.characters];
+      state.characters = [payload, ...state.characters];
       state.favouriteCharactersId = state.favouriteCharactersId.filter(
         (id) => id !== payload.id
       );
