@@ -61,6 +61,7 @@ export default styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 3,
     marginLeft: 10,
+    opacity: 0.5,
   },
 
   detailsContainer: {

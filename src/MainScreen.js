@@ -20,6 +20,7 @@ import FilterScreenRenderer from "./components/Filter/FilterScreenRenderer";
 import styles from "./appStyles";
 // Redux imports
 import { useSelector, useDispatch } from "react-redux";
+import { shakeAnimation } from "./components/Animation/shake";
 import {
   fetchInitialCharacters,
   charactersSelector,
@@ -50,12 +51,14 @@ export default function mainScreen() {
   useEffect(() => {
     dispatch(fetchInitialCharacters());
     dispatch(fetchFavouriteCharacters());
-  }, [dispatch]);
+  }, []);
 
   // ---------------------------------- State declarations ---------------------------------- //
   const [showModal, setShowModal] = useState(false);
   const [characterModal, setCharacterModal] = useState({});
+  const [removedCharacterId, setRemovedCharacterId] = useState(-1);
   const scrollY = React.useRef(new Animated.Value(0)).current;
+  const animX = React.useRef(new Animated.Value(0)).current;
 
   const getNewCharactersFromAPI = () => {
     dispatch(fetchNewCharacters());
@@ -76,12 +79,19 @@ export default function mainScreen() {
     setCharacterModal({});
   };
 
-  const toggleFavouriteHandler = (character) => {
-    if (favouriteCharactersId.includes(character.id)) {
-      dispatch(removeAFavouriteCharacter(character));
-    } else {
+  const setFavouriteCharacter = (character) => {
+    setRemovedCharacterId(character.id);
+    shakeAnimation(animX, () => {
       dispatch(addNewFavouriteCharacter(character));
-    }
+    });
+  };
+
+  const unsetFavouriteCharacter = (character) => {
+    setRemovedCharacterId(character.id);
+    shakeAnimation(animX, () => {
+      dispatch(removeAFavouriteCharacter(character));
+    });
+      
   };
 
   // ---------------------------------- Character Render ---------------------------------- //
@@ -109,40 +119,50 @@ export default function mainScreen() {
         onPress={() => {
           pressHandler(item);
         }}
-        style={styles.touchableIcon}
       >
         <Animated.View
           style={{
             alignSelf: "center",
             flexDirection: "row",
             marginTop: SPACING,
-            backgroundColor: "rgba(0,0,0,0.8)",
+            backgroundColor: "rgba(0,0,0,0.8)", //item.color, 
             borderRadius: 12,
             height: HEIGHT,
             width: "100%",
-            transform: [{ scale }],
+            transform: [
+              { scale },
+              {
+                translateX: item.id === removedCharacterId ? animX : 0,
+              }
+            ],
             opacity,
           }}
         >
           <Image style={styles.image} source={{ uri: item.image }} />
           <View style={styles.starContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                toggleFavouriteHandler(item);
-              }}
-            >
-              {favouriteCharactersId.includes(item.id) ? (
-                <Image
-                  style={styles.star}
-                  source={require("./components/yellow-star.png")}
-                />
-              ) : (
+            {!favouriteCharactersId.includes(item.id) ? (
+              <TouchableOpacity
+                onPress={() => {
+                  setFavouriteCharacter(item);
+                }}
+              >
                 <Image
                   style={styles.star}
                   source={require("./components/white-star.png")}
                 />
-              )}
-            </TouchableOpacity>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() => {
+                  unsetFavouriteCharacter(item);
+                }}
+              >
+                <Image
+                  style={styles.star}
+                  source={require("./components/yellow-star.png")}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           <View style={styles.nameContainer}>
             <Text style={styles.text}>{item.name}</Text>

@@ -1,13 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  onValue,
-  set,
-  update,
-  ref,
-  get,
-  child,
-  getDatabase,
-} from "firebase/database";
+import { set, update, ref, get, child, getDatabase } from "firebase/database";
 import { database } from "../../config";
 
 export const initialState = {
