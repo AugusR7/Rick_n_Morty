@@ -1,35 +1,40 @@
 import { Animated } from "react-native";
 import { Easing } from "react-native-reanimated";
-import { ease } from "react-native/Libraries/Animated/Easing";
 
 export const shakeAnimation = (value, callback)=> {
     Animated.sequence([
         Animated.timing(value, {
-            duration: 50,
+            duration: 40,
             toValue: -50,
             useNativeDriver: true,
             ease: Easing.bounce
         }),
         Animated.timing(value, {
-            duration: 100,
+            duration: 80,
             toValue: 50,
             useNativeDriver: true,
             ease: Easing.bounce
         }),
         Animated.timing(value, {
-            duration: 50,
-            toValue: 50,
+            duration: 80,
+            toValue: -50,
             useNativeDriver: true,
             ease: Easing.bounce
         }),
         Animated.timing(value, {
-            duration: 50,
+            duration: 40,
+            toValue: -50,
+            useNativeDriver: true,
+            ease: Easing.bounce
+        }),
+        Animated.timing(value, {
+            duration: 40,
             toValue: 0,
             useNativeDriver: true,
             ease: Easing.bounce
         }),
         Animated.timing(value, {
-            duration: 100,
+            duration: 40,
             toValue: 0,
             useNativeDriver: true,
             ease: Easing.bounce

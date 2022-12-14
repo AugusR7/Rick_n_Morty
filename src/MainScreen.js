@@ -49,8 +49,8 @@ export default function mainScreen() {
   } = useSelector(charactersSelector);
 
   useEffect(() => {
-    dispatch(fetchInitialCharacters());
     dispatch(fetchFavouriteCharacters());
+    dispatch(fetchInitialCharacters());
   }, []);
 
   // ---------------------------------- State declarations ---------------------------------- //
