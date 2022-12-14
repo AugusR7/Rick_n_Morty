@@ -29,6 +29,7 @@ import {
   addNewFavouriteCharacter,
   removeAFavouriteCharacter,
   fetchFavouriteCharacters,
+  fetchHistory,
 } from "./slices/characters";
 
 const AVATAR_SIZE = 150;
@@ -44,6 +45,7 @@ export default function mainScreen() {
     characters,
     favouriteCharacters,
     favouriteCharactersId,
+    historial,
     loading,
     hasErrors,
   } = useSelector(charactersSelector);
@@ -51,6 +53,7 @@ export default function mainScreen() {
   useEffect(() => {
     dispatch(fetchFavouriteCharacters());
     dispatch(fetchInitialCharacters());
+    dispatch(fetchHistory());
   }, []);
 
   // ---------------------------------- State declarations ---------------------------------- //
@@ -91,7 +94,6 @@ export default function mainScreen() {
     shakeAnimation(animX, () => {
       dispatch(removeAFavouriteCharacter(character));
     });
-      
   };
 
   // ---------------------------------- Character Render ---------------------------------- //
@@ -125,7 +127,7 @@ export default function mainScreen() {
             alignSelf: "center",
             flexDirection: "row",
             marginTop: SPACING,
-            backgroundColor: "rgba(0,0,0,0.8)", //item.color, 
+            backgroundColor: "rgba(0,0,0,0.8)", //item.color,
             borderRadius: 12,
             height: HEIGHT,
             width: "100%",
@@ -133,7 +135,7 @@ export default function mainScreen() {
               { scale },
               {
                 translateX: item.id === removedCharacterId ? animX : 0,
-              }
+              },
             ],
             opacity,
           }}
@@ -180,6 +182,46 @@ export default function mainScreen() {
           </View>
         </Animated.View>
       </TouchableOpacity>
+    );
+  }
+
+  function historyRender({ item }) {
+    return (
+      <View style={styles.historyContainer}>
+        {item.tipo == "AddedFavourite" ? (
+          <Text style={styles.historyText}>
+            ⭐️ Se agregó a favoritos el personaje: {" "}
+            {item.descripcion.character.name}
+          </Text>
+        ) : (
+          <></>
+        )}
+
+        {item.tipo == "RemovedFavourite" ? (
+          <Text style={styles.historyText}>
+            ⭐️ Se eliminó de favoritos el personaje:{" "}
+            {item.descripcion.character.name}
+          </Text>
+        ) : (
+          <></>
+        )}
+        {item.tipo == "AddedComment" ? (
+          <Text style={styles.historyText}>
+            💬 Se agregó el comentario: "{item.descripcion.item.comment}" al
+            personaje: {item.descripcion.item.characterName}
+          </Text>
+        ) : (
+          <></>
+        )}
+        {item.tipo == "RemovedComment" ? (
+          <Text style={styles.historyText}>
+            💬 Se eliminó el comentario del personaje:
+            {item.descripcion.item.characterName}
+          </Text>
+        ) : (
+          <></>
+        )}
+      </View>
     );
   }
 
@@ -259,6 +301,24 @@ export default function mainScreen() {
     );
   }
 
+  function HistoryScreen({ navigation }) {
+    return (
+      <SafeAreaView style={styles.SAVcontainer}>
+        <HeaderBar closeHandler={closeHandler} />
+        <Animated.FlatList
+          style={styles.flatlistStyle}
+          keyExtractor={(item) => item.id}
+          data={historial}
+          renderItem={historyRender}
+          contentContainerStyle={{
+            padding: SPACING,
+            paddingTop: 0,
+          }}
+        />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <NavigationContainer>
       <Drawer.Navigator
@@ -292,6 +352,11 @@ export default function mainScreen() {
           name="FavoritesScreen"
           component={FavoritesScreen}
           options={{ headerTitle: () => <HeaderBar name="FavoritesScreen" /> }}
+        />
+        <Drawer.Screen
+          name="HistoryScreen"
+          component={HistoryScreen}
+          options={{ headerTitle: () => <HeaderBar name="HistoryScreen" /> }}
         />
       </Drawer.Navigator>
     </NavigationContainer>

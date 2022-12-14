@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { createSlice } from "@reduxjs/toolkit";
 import { set, update, ref, get, child, getDatabase } from "firebase/database";
 import { database } from "../../config";
@@ -8,6 +9,7 @@ export const initialState = {
   favouriteCharactersId: [],
   loading: true,
   hasErrors: false,
+  historial: [],
   nextAddress: "https://rickandmortyapi.com/api/character",
 };
 
@@ -67,6 +69,11 @@ const charactersSlice = createSlice({
         }
       });
     },
+    registerAction: (state, { payload }) => {
+      // console.log("REGISTER: "+payload);
+      state.historial = [payload, ...state.historial]
+      // state.historial.push(payload);
+    }
   },
 });
 
@@ -83,6 +90,7 @@ export const {
   removeFavouriteCharacter,
   addCommentToCharacter,
   getFavouriteCharacter,
+  registerAction,
 } = charactersSlice.actions;
 
 export function fetchInitialCharacters() {
@@ -132,6 +140,21 @@ export function fetchNewCharacters() {
   };
 }
 
+export function fetchHistory(){
+  return async (dispatch) =>{
+    try{
+      const reference = ref(getDatabase());
+      get(child(reference, "historial/")).then((snapshot) => {
+        snapshot.forEach((item) => {
+          dispatch(registerAction(item.val()));
+        });
+      });
+    }catch(error){
+      dispatch(getCharactersFailure());
+    }
+  }
+}
+
 export function fetchFilteredCharacters(filterAttributes) {
   return async (dispatch) => {
     dispatch(getCharacters());
@@ -177,6 +200,14 @@ export function addNewFavouriteCharacter(character) {
         comment: "",
       });
       dispatch(addFavouriteCharacter(character));
+
+      // Agregar al historial
+      const idGenerado = generateId();
+      const action = {id: idGenerado, tipo: "AddedFavourite", descripcion:{character}};
+      // console.log(action)
+      const referenceHistorial = ref(database, "historial/" + idGenerado);
+      set(referenceHistorial, action);
+      dispatch(registerAction(action));
     } catch (error) {
       dispatch(getCharactersFailure());
     }
@@ -190,6 +221,14 @@ export function removeAFavouriteCharacter(character) {
     try {
       const reference = ref(database, "characterID/" + character.id);
       set(reference, null);
+
+      // Agregar al historial
+      const idGenerado = generateId();
+      const action = {id: idGenerado, tipo: "RemovedFavourite", descripcion:{character}};
+      // console.log(action)
+      const referenceHistorial = ref(database, "historial/" + idGenerado);
+      set(referenceHistorial, action);
+      dispatch(registerAction(action));
     } catch (error) {
       dispatch(getCharactersFailure());
     }
@@ -204,8 +243,27 @@ export function applyCommentToCharacter(item) {
       update(reference, {
         comment: item.comment,
       });
+
+      // Agregar al historial
+      const idGenerado = generateId();
+      if(item.comment == ""){
+        const action = {id: idGenerado, tipo: "RemovedComment", descripcion:{item}};
+        console.log(action.descripcion);
+        dispatch(registerAction(action));
+        const referenceHistorial = ref(database, "historial/" + idGenerado);
+        set(referenceHistorial, action);
+      }else{
+        const action = {id: idGenerado, tipo: "AddedComment", descripcion:{item}};
+        console.log(action.descripcion);
+        dispatch(registerAction(action));
+        const referenceHistorial = ref(database, "historial/" + idGenerado);
+        set(referenceHistorial, action);
+      }
     } catch (error) {
       console.log(error);
     }
   };
+}
+function generateId(){
+  return Math.floor(Math.random() * 10000);
 }

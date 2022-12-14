@@ -37,7 +37,7 @@ export default function CharacterDetails({ character, closeHandler }) {
   const [comment, setComment] = useState(character.comment);
 
   const favouriteCloseHandler = () => {
-    dispatch(applyCommentToCharacter({ id: character.id, comment: comment }));
+    dispatch(applyCommentToCharacter({ id: character.id, comment: comment , characterName: character.name}));
     closeHandler();
   };
 
