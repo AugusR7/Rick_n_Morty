@@ -70,7 +70,6 @@ const charactersSlice = createSlice({
       });
     },
     registerAction: (state, { payload }) => {
-      // console.log("REGISTER: "+payload);
       state.historial = [payload, ...state.historial]
       // state.historial.push(payload);
     }

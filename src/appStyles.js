@@ -104,32 +104,17 @@ export default styles = StyleSheet.create({
   historyContainer:{
     marginTop: 10,
     height: 50,
-    // width: "100%", 
     backgroundColor: "rgba(0,0,0,0.8)",
     borderRadius: 12,
     padding: 5,
-    // flexWrap: "wrap",
-
   },
 
   historyText: {
     paddingLeft: 10,
-    // textAlign: "center",
     fontSize: 16,
     color: "white",
     fontWeight: "bold",
     flexWrap: "wrap",
   },
 
-
-  // image: {
-  //   borderRadius: AVATAR_SIZE,
-  //   height: AVATAR_SIZE,
-  //   width: AVATAR_SIZE,
-  //   alignSelf: 'center',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   marginLeft: SPACING/2,
-  //   marginRight: SPACING/2,
-  // },
 });
